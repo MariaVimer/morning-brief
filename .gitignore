@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+ms_token_cache.bin
+google_token.json
+google_credentials.json
+.DS_Store

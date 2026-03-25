@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morning Brief</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3250;
+      --text: #e8eaf6;
+      --muted: #8892b0;
+      --accent: #7c83f5;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --green: #34d399;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+           background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* Layout */
+    .shell { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+    nav { background: var(--surface); border-right: 1px solid var(--border);
+          padding: 24px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    main { padding: 32px 40px; max-width: 1100px; }
+
+    /* Nav */
+    .nav-logo { padding: 0 20px 24px; font-size: 13px; font-weight: 700;
+                letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+    .nav-date { padding: 0 20px 20px; font-size: 12px; color: var(--muted); }
+    .nav-item { display: block; padding: 9px 20px; font-size: 13px; color: var(--muted);
+                text-decoration: none; cursor: pointer; transition: all .15s;
+                border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { color: var(--text); background: var(--surface2);
+                                         border-left-color: var(--accent); }
+    .nav-section { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase;
+                   letter-spacing: 0.1em; color: var(--muted); }
+
+    /* Section */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Headline card */
+    .headline-card { background: linear-gradient(135deg, #1e2140, #252b4a);
+                     border: 1px solid var(--border); border-radius: 12px;
+                     padding: 24px; margin-bottom: 28px; }
+    .headline-card h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+    .headline-card .sub { font-size: 13px; color: var(--muted); }
+
+    /* Metrics row */
+    .metrics-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                   gap: 16px; margin-bottom: 28px; }
+    .metric-card { background: var(--surface); border: 1px solid var(--border);
+                   border-radius: 10px; padding: 18px; }
+    .metric-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em;
+                    color: var(--muted); margin-bottom: 8px; }
+    .metric-value { font-size: 26px; font-weight: 700; color: var(--text); }
+    .metric-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .trend-up { color: var(--green); }
+    .trend-down { color: var(--red); }
+    .trend-flat { color: var(--muted); }
+
+    /* Todo sections */
+    .section-title { font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
+                     margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .badge { display: inline-block; background: var(--surface2); border-radius: 20px;
+             padding: 2px 9px; font-size: 11px; font-weight: 600; }
+    .badge.red { background: rgba(248,113,113,.15); color: var(--red); }
+    .badge.yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
+    .badge.blue { background: rgba(96,165,250,.12); color: var(--blue); }
+    .badge.green { background: rgba(52,211,153,.12); color: var(--green); }
+    .badge.purple { background: rgba(167,139,250,.12); color: var(--purple); }
+
+    .todo-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .todo-item { background: var(--surface); border: 1px solid var(--border);
+                 border-radius: 8px; padding: 14px 16px; }
+    .todo-task { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .todo-why { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .todo-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .chip { font-size: 11px; background: var(--surface2); border-radius: 4px;
+            padding: 2px 8px; color: var(--muted); }
+    .chip a { color: var(--accent); text-decoration: none; }
+    .chip a:hover { text-decoration: underline; }
+
+    /* Meetings */
+    .meeting-card { background: var(--surface); border: 1px solid var(--border);
+                    border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+    .meeting-title { font-size: 14px; font-weight: 500; }
+    .meeting-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .meeting-prep { font-size: 12px; color: var(--yellow); margin-top: 6px;
+                    border-top: 1px solid var(--border); padding-top: 6px; }
+
+    /* Flags */
+    .flag-item { background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.2);
+                 border-radius: 8px; padding: 12px 16px; margin-bottom: 10px;
+                 font-size: 13px; color: var(--yellow); }
+
+    /* Refresh */
+    .refresh-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+                   font-size: 12px; color: var(--muted); }
+    .refresh-bar button { background: var(--surface2); border: 1px solid var(--border);
+                           color: var(--text); padding: 6px 14px; border-radius: 6px;
+                           font-size: 12px; cursor: pointer; }
+    .refresh-bar button:hover { background: var(--border); }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <nav>
+    <div class="nav-logo">Morning Brief</div>
+    <div class="nav-date" id="nav-date">—</div>
+    <div class="nav-section">Today</div>
+    <a class="nav-item active" onclick="show('overview')">Overview</a>
+    <a class="nav-item" onclick="show('todos')">Todo List</a>
+    <a class="nav-item" onclick="show('meetings')">Meetings</a>
+    <div class="nav-section">Context</div>
+    <a class="nav-item" onclick="show('metrics')">Metrics</a>
+    <a class="nav-item" onclick="show('escalations')">Escalations</a>
+  </nav>
+
+  <main>
+    <!-- ── OVERVIEW ── -->
+    <div class="section active" id="section-overview">
+      <div class="refresh-bar">
+        <span id="last-updated">Last updated: —</span>
+        <button onclick="location.reload()">Refresh</button>
+      </div>
+
+      <div class="headline-card">
+        <h1 id="headline">Loading...</h1>
+        <div class="sub" id="headline-date">—</div>
+      </div>
+
+      <div class="metrics-row" id="metrics-row"></div>
+
+      <div class="section-title">
+        <span>⚡</span> Quick wins
+        <span class="badge green" id="badge-quick">0</span>
+      </div>
+      <div class="todo-list" id="list-quick"></div>
+
+      <div class="section-title">
+        <span>🔴</span> Must close today
+        <span class="badge red" id="badge-close">0</span>
+      </div>
+      <div class="todo-list" id="list-close"></div>
+
+      <div id="flags-section" style="display:none">
+        <div class="section-title">⚠️ Flags</div>
+        <div id="list-flags"></div>
+      </div>
+    </div>
+
+    <!-- ── TODOS ── -->
+    <div class="section" id="section-todos">
+      <div class="section-title">🟡 Must make progress
+        <span class="badge yellow" id="badge-progress">0</span>
+      </div>
+      <div class="todo-list" id="list-progress"></div>
+
+      <div class="section-title">💬 Must communicate with
+        <span class="badge blue" id="badge-comm">0</span>
+      </div>
+      <div class="todo-list" id="list-comm"></div>
+
+      <div class="section-title">📊 Must report status
+        <span class="badge purple" id="badge-report">0</span>
+      </div>
+      <div class="todo-list" id="list-report"></div>
+    </div>
+
+    <!-- ── MEETINGS ── -->
+    <div class="section" id="section-meetings">
+      <div class="section-title">📅 Today's meetings
+        <span class="badge blue" id="badge-meetings">0</span>
+      </div>
+      <div id="list-meetings"></div>
+    </div>
+
+    <!-- ── METRICS ── -->
+    <div class="section" id="section-metrics">
+      <div class="section-title">📈 Metrics snapshot</div>
+      <div class="metrics-row" id="metrics-detail"></div>
+    </div>
+
+    <!-- ── ESCALATIONS ── -->
+    <div class="section" id="section-escalations">
+      <div class="section-title">🚨 Open escalations</div>
+      <div id="list-escalations"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* BRIEF_DATA_START */
+const BRIEF = {
+  "date": "2026-03-25",
+  "headline": "Clear calendar day \u2014 use it to drive the 'no ground truth' evals design doc forward before the next bi-weekly TR cycle.",
+  "todos": {
+    "quick_wins": [
+      {
+        "task": "Fix Salesforce integration (check SALESFORCE_* env vars and install simple_salesforce)",
+        "why": "Auth is broken; you're blind to customer escalations until this is resolved",
+        "source": "salesforce",
+        "link": ""
+      },
+      {
+        "task": "Fix Snowflake connector (pip install snowflake-connector-python)",
+        "why": "No metrics visibility \u2014 the 3/18 TR explicitly calls for dashboard-driven metrics and you can't pull them",
+        "source": "jira",
+        "link": ""
+      }
+    ],
+    "must_close_today": [],
+    "must_make_progress": [
+      {
+        "task": "Draft or significantly advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+        "why": "Evals is a key 26.4 deliverable called out in the Big Rock TR; no due date set means it risks slipping \u2014 use this empty calendar day to get a reviewable draft out",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      },
+      {
+        "task": "Review latest Big Rock TR page for any new action items or status changes since 3/18",
+        "why": "Next TR is likely 4/1; you need to know where evals sits relative to other workstreams (templates, context engineering, agent memory) to frame your design doc correctly",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
+      }
+    ],
+    "must_communicate_with": [
+      {
+        "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
+        "about": "Align on 'no ground truth' eval approach \u2014 confirm feasibility of LLM-as-judge or reference-free scoring before finalizing design doc",
+        "channel": "slack",
+        "urgency": "this_week"
+      },
+      {
+        "person_or_team": "Jordan",
+        "about": "Sync on how evals design intersects with DeepRAG/BatchTransform validation patterns and Context Engineering work",
+        "channel": "slack",
+        "urgency": "this_week"
+      }
+    ],
+    "must_report_status": [
+      {
+        "topic": "Evals design doc progress (AE-1079)",
+        "to": "Adrian / Agents leadership",
+        "via": "slack or next TR",
+        "note": "Proactively share draft status before 4/1 TR so it doesn't surface as 'no update' \u2014 evals was demoed in the 3/18 cycle"
+      }
+    ]
+  },
+  "meetings_today": [],
+  "metrics_snapshot": {
+    "agents_in_production": {
+      "value": "unavailable",
+      "trend": "unknown",
+      "vs_goal": "Snowflake connector broken \u2014 fix today to restore visibility"
+    },
+    "evals_adoption": {
+      "value": "unavailable",
+      "trend": "unknown",
+      "vs_goal": "Key 26.4 deliverable; need telemetry to track adoption"
+    },
+    "escalations_open": {
+      "value": "unavailable",
+      "critical_count": 0
+    }
+  },
+  "flags": [
+    "Salesforce and Snowflake integrations are both broken \u2014 you have zero visibility into customer escalations and product metrics. Fix before EOD.",
+    "AE-1079 has no due date set; risk of it drifting. Consider setting a target date (e.g., draft by 3/27, review by 4/1 TR).",
+    "Autopilot is flagged Risk Yellow in the Big Rock TR \u2014 monitor whether any evals work touches Autopilot quality and be ready to speak to it.",
+    "March telemetry data was noted as needing an update in the TR appendix \u2014 once Snowflake is fixed, pull March numbers for low-code vs coded agents."
+  ],
+  "slack_summary": "Clear calendar day \u2014 best use is pushing the 'no ground truth' evals design doc (AE-1079) toward a reviewable draft before the next bi-weekly TR. Top urgent items: (1) fix broken Salesforce and Snowflake integrations so you're not blind to escalations and metrics, and (2) async-ping Dragos/Tomasz to validate the reference-free eval approach before you commit it to the doc. Zero meetings today \u2014 protect the focus time."
+};
+/* BRIEF_DATA_END */
+
+/* RAW_DATA_START */
+const RAW_DATA = {
+  "meetings": [],
+  "metrics": {
+    "error": "snowflake-connector-python not installed. Run: pip install snowflake-connector-python"
+  }
+};
+/* RAW_DATA_END */
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function todoItem(t, type) {
+  const link = t.link
+    ? `<span class="chip"><a href="${t.link}" target="_blank">Open ↗</a></span>`
+    : '';
+  const source = t.source ? `<span class="chip">${t.source}</span>` : '';
+  const deadline = t.deadline_note ? `<span class="chip" style="color:var(--red)">${t.deadline_note}</span>` : '';
+  return `
+    <div class="todo-item">
+      <div class="todo-task">${t.task || t.topic || ''}</div>
+      <div class="todo-why">${t.why || t.about || t.note || ''}</div>
+      <div class="todo-meta">${source}${deadline}${link}</div>
+    </div>`;
+}
+
+function commItem(t) {
+  const urgency = t.urgency === 'today'
+    ? '<span class="chip" style="color:var(--red)">Today</span>'
+    : '<span class="chip">This week</span>';
+  return `
+    <div class="todo-item">
+      <div class="todo-task">${t.person_or_team}</div>
+      <div class="todo-why">${t.about || ''}</div>
+      <div class="todo-meta"><span class="chip">${t.channel || ''}</span>${urgency}</div>
+    </div>`;
+}
+
+function metricCard(label, val, sub, trend) {
+  const trendClass = trend === 'up' ? 'trend-up' : trend === 'down' ? 'trend-down' : 'trend-flat';
+  const trendIcon = trend === 'up' ? '↑' : trend === 'down' ? '↓' : '→';
+  return `
+    <div class="metric-card">
+      <div class="metric-label">${label}</div>
+      <div class="metric-value ${trendClass}">${val}</div>
+      <div class="metric-sub">${trendIcon} ${sub || ''}</div>
+    </div>`;
+}
+
+function render() {
+  if (!BRIEF || !BRIEF.date) {
+    document.getElementById('headline').textContent = 'Brief not yet generated. Run build.py to generate.';
+    return;
+  }
+
+  // Header
+  document.getElementById('nav-date').textContent = BRIEF.date;
+  document.getElementById('headline').textContent = BRIEF.headline || '';
+  document.getElementById('headline-date').textContent = BRIEF.date;
+  document.getElementById('last-updated').textContent = `Last updated: ${BRIEF.date}`;
+
+  const todos = BRIEF.todos || {};
+
+  // Quick wins
+  const quick = todos.quick_wins || [];
+  document.getElementById('badge-quick').textContent = quick.length;
+  document.getElementById('list-quick').innerHTML = quick.map(t => todoItem(t)).join('');
+
+  // Must close
+  const close = todos.must_close_today || [];
+  document.getElementById('badge-close').textContent = close.length;
+  document.getElementById('list-close').innerHTML = close.map(t => todoItem(t)).join('');
+
+  // Must progress
+  const progress = todos.must_make_progress || [];
+  document.getElementById('badge-progress').textContent = progress.length;
+  document.getElementById('list-progress').innerHTML = progress.map(t => todoItem(t)).join('');
+
+  // Communicate
+  const comm = todos.must_communicate_with || [];
+  document.getElementById('badge-comm').textContent = comm.length;
+  document.getElementById('list-comm').innerHTML = comm.map(t => commItem(t)).join('');
+
+  // Report status
+  const report = todos.must_report_status || [];
+  document.getElementById('badge-report').textContent = report.length;
+  document.getElementById('list-report').innerHTML = report.map(t => todoItem(t, 'report')).join('');
+
+  // Metrics row (overview + detail)
+  const m = BRIEF.metrics_snapshot || {};
+  const metricsHtml = [
+    metricCard('Agents in prod', m.agents_in_production?.value || '—',
+               m.agents_in_production?.vs_goal || '', m.agents_in_production?.trend),
+    metricCard('Evals adoption', m.evals_adoption?.value || '—',
+               m.evals_adoption?.vs_goal || '', m.evals_adoption?.trend),
+    metricCard('Open escalations',
+               (m.escalations_open?.value ?? '—').toString(),
+               `${m.escalations_open?.critical_count || 0} critical`, 'flat'),
+  ].join('');
+  document.getElementById('metrics-row').innerHTML = metricsHtml;
+  document.getElementById('metrics-detail').innerHTML = metricsHtml;
+
+  // Flags
+  const flags = BRIEF.flags || [];
+  if (flags.length) {
+    document.getElementById('flags-section').style.display = 'block';
+    document.getElementById('list-flags').innerHTML =
+      flags.map(f => `<div class="flag-item">${f}</div>`).join('');
+  }
+
+  // Meetings
+  const meetings = BRIEF.meetings_today || [];
+  document.getElementById('badge-meetings').textContent = meetings.length;
+  document.getElementById('list-meetings').innerHTML = meetings.map(m => `
+    <div class="meeting-card">
+      <div class="meeting-title">${m.title}</div>
+      <div class="meeting-meta">${m.time || ''} · ${m.duration_min || 0} min · ${m.attendees_count || 0} attendees</div>
+      ${m.prep_note ? `<div class="meeting-prep">Prep: ${m.prep_note}</div>` : ''}
+    </div>`).join('');
+
+  // Escalations (from salesforce via raw data if available)
+  const escs = (RAW_DATA.escalations || {}).open_escalations || [];
+  document.getElementById('list-escalations').innerHTML = escs.length
+    ? escs.map(e => `
+      <div class="todo-item">
+        <div class="todo-task">${e.subject}</div>
+        <div class="todo-why">${e.account} · ${e.priority} · ${e.status}</div>
+        <div class="todo-meta">
+          <span class="chip">${e.case_number}</span>
+          ${e.url ? `<span class="chip"><a href="${e.url}" target="_blank">Open ↗</a></span>` : ''}
+        </div>
+      </div>`).join('')
+    : '<div style="color:var(--muted);font-size:13px">No open escalations — good sign.</div>';
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "date": "2026-03-25",
+  "headline": "Clear calendar day \u2014 use it to drive the 'no ground truth' evals design doc forward before the next bi-weekly TR cycle.",
+  "todos": {
+    "quick_wins": [
+      {
+        "task": "Fix Salesforce integration (check SALESFORCE_* env vars and install simple_salesforce)",
+        "why": "Auth is broken; you're blind to customer escalations until this is resolved",
+        "source": "salesforce",
+        "link": ""
+      },
+      {
+        "task": "Fix Snowflake connector (pip install snowflake-connector-python)",
+        "why": "No metrics visibility \u2014 the 3/18 TR explicitly calls for dashboard-driven metrics and you can't pull them",
+        "source": "jira",
+        "link": ""
+      }
+    ],
+    "must_close_today": [],
+    "must_make_progress": [
+      {
+        "task": "Draft or significantly advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+        "why": "Evals is a key 26.4 deliverable called out in the Big Rock TR; no due date set means it risks slipping \u2014 use this empty calendar day to get a reviewable draft out",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      },
+      {
+        "task": "Review latest Big Rock TR page for any new action items or status changes since 3/18",
+        "why": "Next TR is likely 4/1; you need to know where evals sits relative to other workstreams (templates, context engineering, agent memory) to frame your design doc correctly",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
+      }
+    ],
+    "must_communicate_with": [
+      {
+        "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
+        "about": "Align on 'no ground truth' eval approach \u2014 confirm feasibility of LLM-as-judge or reference-free scoring before finalizing design doc",
+        "channel": "slack",
+        "urgency": "this_week"
+      },
+      {
+        "person_or_team": "Jordan",
+        "about": "Sync on how evals design intersects with DeepRAG/BatchTransform validation patterns and Context Engineering work",
+        "channel": "slack",
+        "urgency": "this_week"
+      }
+    ],
+    "must_report_status": [
+      {
+        "topic": "Evals design doc progress (AE-1079)",
+        "to": "Adrian / Agents leadership",
+        "via": "slack or next TR",
+        "note": "Proactively share draft status before 4/1 TR so it doesn't surface as 'no update' \u2014 evals was demoed in the 3/18 cycle"
+      }
+    ]
+  },
+  "meetings_today": [],
+  "metrics_snapshot": {
+    "agents_in_production": {
+      "value": "unavailable",
+      "trend": "unknown",
+      "vs_goal": "Snowflake connector broken \u2014 fix today to restore visibility"
+    },
+    "evals_adoption": {
+      "value": "unavailable",
+      "trend": "unknown",
+      "vs_goal": "Key 26.4 deliverable; need telemetry to track adoption"
+    },
+    "escalations_open": {
+      "value": "unavailable",
+      "critical_count": 0
+    }
+  },
+  "flags": [
+    "Salesforce and Snowflake integrations are both broken \u2014 you have zero visibility into customer escalations and product metrics. Fix before EOD.",
+    "AE-1079 has no due date set; risk of it drifting. Consider setting a target date (e.g., draft by 3/27, review by 4/1 TR).",
+    "Autopilot is flagged Risk Yellow in the Big Rock TR \u2014 monitor whether any evals work touches Autopilot quality and be ready to speak to it.",
+    "March telemetry data was noted as needing an update in the TR appendix \u2014 once Snowflake is fixed, pull March numbers for low-code vs coded agents."
+  ],
+  "slack_summary": "Clear calendar day \u2014 best use is pushing the 'no ground truth' evals design doc (AE-1079) toward a reviewable draft before the next bi-weekly TR. Top urgent items: (1) fix broken Salesforce and Snowflake integrations so you're not blind to escalations and metrics, and (2) async-ping Dragos/Tomasz to validate the reference-free eval approach before you commit it to the doc. Zero meetings today \u2014 protect the focus time."
+}

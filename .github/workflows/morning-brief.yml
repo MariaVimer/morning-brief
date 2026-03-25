@@ -1,0 +1,62 @@
+name: Morning Brief
+
+on:
+  schedule:
+    # 7:00am EST = 12:00 UTC (standard time) / 11:00 UTC (daylight saving)
+    - cron: "0 12 * * 1-5"   # weekdays only, standard time
+    - cron: "0 11 * * 1-5"   # weekdays only, daylight saving
+  workflow_dispatch:          # manual trigger from GitHub Actions UI
+
+jobs:
+  generate-brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate Morning Brief
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          CONFLUENCE_OKR_PAGE_ID: ${{ secrets.CONFLUENCE_OKR_PAGE_ID }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_USER_ID: ${{ secrets.SLACK_USER_ID }}
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          GOOGLE_TOKEN_JSON: ${{ secrets.GOOGLE_TOKEN_JSON }}
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_CLIENT_SECRET: ${{ secrets.MS_CLIENT_SECRET }}
+          MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
+          MS_USER_EMAIL: ${{ secrets.MS_USER_EMAIL }}
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+          SALESFORCE_INSTANCE_URL: ${{ secrets.SALESFORCE_INSTANCE_URL }}
+          SALESFORCE_PASSWORD: ${{ secrets.SALESFORCE_PASSWORD }}
+          SALESFORCE_SECURITY_TOKEN: ${{ secrets.SALESFORCE_SECURITY_TOKEN }}
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+        run: python build.py
+
+      - name: Commit updated dashboard
+        run: |
+          git config user.name "morning-brief[bot]"
+          git config user.email "morning-brief@github-actions"
+          git add index.html latest_brief.json
+          git diff --staged --quiet || git commit -m "chore: morning brief $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Deploy to Vercel
+        if: env.VERCEL_TOKEN != ''
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel --prod --yes --token $VERCEL_TOKEN
