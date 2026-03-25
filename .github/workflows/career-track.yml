@@ -1,0 +1,39 @@
+name: Career Impact Tracker
+
+on:
+  schedule:
+    # 6:00pm EST = 23:00 UTC (standard time) / 22:00 UTC (daylight saving)
+    - cron: "0 23 * * 1-5"   # weekdays, standard time
+    - cron: "0 22 * * 1-5"   # weekdays, daylight saving
+  workflow_dispatch:           # manual trigger from GitHub Actions UI
+
+jobs:
+  track-career:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run career impact analysis
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          npx --yes @anthropic-ai/claude-code \
+            --print "$(cat career_track_prompt.md)" \
+            --allowedTools "Read,Write,Glob" \
+            --output-format text \
+            2>&1 | tee /tmp/career-run.log
+          echo "Exit code: $?"
+
+      - name: Commit career insights
+        run: |
+          git config user.name "career-tracker[bot]"
+          git config user.email "career-tracker@github-actions"
+          git add career_insights/
+          git diff --staged --quiet || git commit -m "chore: career insights $(date -u +%Y-%m-%d)"
+          git push
