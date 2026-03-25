@@ -86,6 +86,24 @@ Based on ALL of the above, produce a Morning Brief as JSON with exactly this str
     "Any risks, blockers, or things that need attention that don't fit elsewhere"
   ],
 
+  "deliverables": {{
+    "tasks_completed": [{{"item": "Jira ticket or task completed/resolved", "source": "jira", "link": "..."}}],
+    "documents": [{{"item": "PRD, design doc, spec, or wiki page written or updated", "source": "jira|confluence", "link": "..."}}],
+    "features_or_initiatives": [{{"item": "Feature, initiative, or project advanced", "source": "jira", "link": "..."}}],
+    "customer_enablement": [{{"item": "Customer call, demo, training, or enablement session", "source": "salesforce|slack|email"}}],
+    "slack_supported": [{{"item": "Thread or question you answered or unblocked", "channel": "...", "source": "slack"}}],
+    "other": [{{"item": "Blog, event, prototype, git commit, or other output", "source": "..."}}]
+  }},
+
+  "praise": [
+    {{"from": "Person name or team", "quote": "Exact or paraphrased positive feedback", "context": "slack|email"}}
+  ],
+
+  "outcomes": {{
+    "business_impact": "One sentence: what moved the business forward today (escalations resolved, customers unblocked, decisions made, leadership alignment)",
+    "product_adoption": "One sentence: progress on product adoption — metrics, features shipped, enablement done, or adoption-driving work advanced"
+  }},
+
   "slack_summary": "3-4 sentence plain-English summary for Slack DM. Start with the headline. Mention the top 2 urgent items. End with meeting count for today."
 }}
 
@@ -95,9 +113,13 @@ Rules:
 - must_make_progress: important but not necessarily closable today.
 - must_communicate_with: specific people who need a reply, update, or decision.
 - must_report_status: stakeholders waiting on your status (leadership, cross-team, customers).
+- deliverables: extract from Jira resolved/done tickets, Confluence pages updated, Slack threads where the PM helped, and email. Only include things actually done (past tense), not planned.
+- praise: any explicit positive feedback, kudos, or appreciation from Slack messages or emails directed at the PM.
+- outcomes.business_impact: synthesize the concrete business value from all data — be specific.
+- outcomes.product_adoption: summarize adoption metric progress or adoption-driving work.
 - Be specific. "Reply to Anurag about eval framework" is better than "check Slack messages."
 - If data is unavailable for a metric, use "unavailable" as the value.
-- Maximum 5 items per bucket.
+- Maximum 5 items per bucket. deliverables sub-lists max 5 each.
 - Return ONLY valid JSON. No markdown fences."""
 
 

@@ -69,6 +69,31 @@ def fetch_all() -> dict:
     return results
 
 
+def save_brief_history(brief: dict) -> None:
+    """Append this brief to the briefs/ directory as YYYY-MM-DD.json."""
+    from datetime import date as _date
+    briefs_dir = Path(__file__).parent / "briefs"
+    briefs_dir.mkdir(exist_ok=True)
+    date_str = brief.get("date", _date.today().isoformat())
+    path = briefs_dir / f"{date_str}.json"
+    path.write_text(json.dumps(brief, indent=2, default=str))
+    print(f"  ✓ Brief history saved to {path}")
+
+
+def load_briefs_history() -> list[dict]:
+    """Load all brief files from briefs/, newest first."""
+    briefs_dir = Path(__file__).parent / "briefs"
+    if not briefs_dir.exists():
+        return []
+    briefs = []
+    for f in sorted(briefs_dir.glob("*.json"), reverse=True):
+        try:
+            briefs.append(json.loads(f.read_text()))
+        except Exception:
+            pass
+    return briefs
+
+
 def inject_into_html(brief: dict, data: dict) -> None:
     """Inject the brief JSON into index.html."""
     template_path = Path(__file__).parent / "index.html"
@@ -82,11 +107,14 @@ def inject_into_html(brief: dict, data: dict) -> None:
         "meetings": data.get("calendar", []),
         "metrics": data.get("snowflake", {}),
     }, indent=2, default=str)
+    history_json = json.dumps(load_briefs_history(), indent=2, default=str)
 
     html = _replace_between(html, "/* BRIEF_DATA_START */", "/* BRIEF_DATA_END */",
                              f"const BRIEF = {brief_json};")
     html = _replace_between(html, "/* RAW_DATA_START */", "/* RAW_DATA_END */",
                              f"const RAW_DATA = {data_json};")
+    html = _replace_between(html, "/* BRIEFS_HISTORY_START */", "/* BRIEFS_HISTORY_END */",
+                             f"const BRIEFS_HISTORY = {history_json};")
     template_path.write_text(html)
     print("  ✓ index.html updated")
 
@@ -167,6 +195,9 @@ def main(dry_run: bool = False) -> None:
     output_path = Path(__file__).parent / "latest_brief.json"
     output_path.write_text(json.dumps(brief, indent=2, default=str))
     print(f"  ✓ Saved to {output_path}")
+
+    # Save to dated history
+    save_brief_history(brief)
 
     if dry_run:
         print("\n--- DRY RUN OUTPUT ---")

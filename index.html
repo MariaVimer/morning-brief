@@ -76,11 +76,11 @@
     /* Ellipsis menu */
     .item-menu-wrap { position: relative; flex-shrink: 0; margin-top: 1px; }
     .item-menu-btn {
-      opacity: 0; background: none; border: none; cursor: pointer;
-      color: rgba(55,53,47,0.45); padding: 1px 5px; border-radius: 3px;
-      font-size: 15px; line-height: 1; transition: opacity 0.1s;
+      background: none; border: none; cursor: pointer;
+      color: rgba(55,53,47,0.35); padding: 1px 5px; border-radius: 3px;
+      font-size: 15px; line-height: 1;
     }
-    .todo-item:hover .item-menu-btn { opacity: 1; }
+    .todo-item:hover { background: rgba(55,53,47,0.03); border-radius: 4px; }
     .item-menu-btn:hover { background: rgba(55,53,47,0.08); color: rgb(55,53,47); }
 
     .dropdown {
@@ -127,6 +127,41 @@
       animation: fadeup 0.15s ease;
     }
     @keyframes fadeup { from { opacity:0; transform: translateX(-50%) translateY(6px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+    /* Outcomes */
+    .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .outcome-card { border: 1px solid rgba(55,53,47,0.12); border-radius: 8px; padding: 20px 22px; }
+    .outcome-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(55,53,47,0.45); margin-bottom: 8px; }
+    .outcome-text { font-size: 14px; color: rgb(55,53,47); line-height: 1.6; }
+
+    /* Brief history accordion */
+    .brief-entry { border-bottom: 1px solid rgba(55,53,47,0.08); }
+    .brief-entry:last-child { border-bottom: none; }
+    .brief-header {
+      display: flex; align-items: center; gap: 10px; padding: 14px 0;
+      cursor: pointer; user-select: none;
+    }
+    .brief-chevron { font-size: 11px; color: rgba(55,53,47,0.35); flex-shrink: 0; transition: transform 0.15s; }
+    .brief-entry.open .brief-chevron { transform: rotate(90deg); }
+    .brief-date { font-size: 13px; font-weight: 500; color: rgb(55,53,47); flex-shrink: 0; min-width: 120px; }
+    .brief-headline { font-size: 13px; color: rgba(55,53,47,0.55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brief-body { display: none; padding-bottom: 20px; }
+    .brief-entry.open .brief-body { display: block; }
+
+    /* Deliverables */
+    .deliverable-group { margin-bottom: 18px; }
+    .deliverable-group-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(55,53,47,0.4); margin-bottom: 8px; }
+    .deliverable-item { display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px; font-size: 13px; color: rgb(55,53,47); line-height: 1.5; }
+    .deliverable-item::before { content: "·"; color: rgba(55,53,47,0.3); flex-shrink: 0; }
+    .deliverable-item a { color: rgba(55,53,47,0.4); font-size: 11px; text-decoration: none; margin-left: 4px; }
+    .deliverable-item a:hover { color: rgb(55,53,47); text-decoration: underline; }
+
+    /* Praise */
+    .praise-list { margin-top: 4px; }
+    .praise-item { padding: 14px 16px; border-left: 2px solid rgba(55,53,47,0.15); margin-bottom: 12px; }
+    .praise-quote { font-size: 13px; color: rgb(55,53,47); line-height: 1.6; font-style: italic; margin-bottom: 5px; }
+    .praise-from { font-size: 12px; color: rgba(55,53,47,0.45); }
+
+    .briefs-empty { font-size: 14px; color: rgba(55,53,47,0.4); padding: 24px 0; }
   </style>
 </head>
 <body>
@@ -137,10 +172,12 @@
     <div class="nav-group">Today</div>
     <a class="nav-item active" onclick="show('overview', this)">Overview</a>
     <a class="nav-item" onclick="show('todos', this)">To-do</a>
-    <a class="nav-item" onclick="show('meetings', this)">Meetings</a>
+    <a class="nav-item" onclick="show('meetings', this)">Meetings Prep</a>
     <div class="nav-group">Context</div>
     <a class="nav-item" onclick="show('metrics', this)">Metrics</a>
     <a class="nav-item" onclick="show('escalations', this)">Escalations</a>
+    <div class="nav-group">History</div>
+    <a class="nav-item" onclick="show('briefs', this)">Briefs</a>
   </nav>
 
   <main>
@@ -170,7 +207,7 @@
     </div>
 
     <div class="section" id="section-meetings">
-      <div class="page-title">Meetings</div>
+      <div class="page-title">Meetings Prep</div>
       <div class="page-subtitle" id="meetings-date">—</div>
       <div id="list-meetings"></div>
     </div>
@@ -186,6 +223,23 @@
       <div class="page-subtitle" id="escalations-date">—</div>
       <div id="list-escalations"></div>
     </div>
+
+    <div class="section" id="section-briefs">
+      <div class="page-title">Briefs</div>
+      <div class="page-subtitle">History &amp; outcomes</div>
+      <div class="outcomes-grid">
+        <div class="outcome-card">
+          <div class="outcome-label">Business Impact</div>
+          <div class="outcome-text" id="outcome-business">—</div>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-label">Product Adoption</div>
+          <div class="outcome-text" id="outcome-adoption">—</div>
+        </div>
+      </div>
+      <h2>Brief history</h2>
+      <div id="list-briefs"></div>
+    </div>
   </main>
 </div>
 
@@ -193,12 +247,12 @@
 /* BRIEF_DATA_START */
 const BRIEF = {
   "date": "2026-03-25",
-  "headline": "Clear calendar and quiet comms \u2014 ideal day to make real progress on the generated evaluations (no ground truth) design doc before the next bi-weekly TR.",
+  "headline": "Clear calendar and no inbound fires \u2014 use today to push the 'no ground truth' evals design doc forward before the next bi-weekly TR.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Fix Salesforce and Snowflake integrations so tomorrow's brief has real data",
-        "why": "Both connectors are broken; you're flying blind on escalations and product metrics",
+        "task": "Fix Salesforce and Snowflake integrations (check env vars and install missing packages)",
+        "why": "You're flying blind on escalations and product metrics \u2014 both feeds are broken",
         "source": "salesforce",
         "link": ""
       }
@@ -206,44 +260,38 @@ const BRIEF = {
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Draft or advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
-        "why": "Only active ticket on your board; evals is a key 26.4 deliverable called out in the Big Rock TR. Next bi-weekly TR likely April 1 \u2014 get a reviewable draft out before then.",
+        "task": "Draft or significantly advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+        "why": "This is your only active Jira ticket, evals is a key 26.4 deliverable called out in the Big Rock TR, and there's no due date \u2014 meaning it could slip indefinitely if not pushed now",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
       },
       {
-        "task": "Review the Big Rock TR page for evals, Flow, and Autopilot updates to align your design doc with current direction",
-        "why": "Autopilot is flagged Yellow/Risk and evals adoption is a tracked metric \u2014 your doc should address both",
+        "task": "Review the Big Rock bi-weekly TR page for any action items or follow-ups assigned to you from the 3/18 meeting",
+        "why": "The TR covers evals, templates, and agent lifecycle \u2014 all adjacent to your work; ensure you're not missing commitments",
         "source": "jira",
         "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Jordan (Templates + Patterns)",
-        "about": "Sync on how 'no ground truth' evals interact with DeepRAG and validation patterns he's scoping",
+        "person_or_team": "Jordan / Evals team",
+        "about": "Align on scope and open questions for the no-ground-truth evaluation design before you finalize the doc",
         "channel": "slack",
         "urgency": "this_week"
       },
       {
-        "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
-        "about": "Get technical input or review commitment on the generated evals approach for AE-1079",
-        "channel": "slack",
-        "urgency": "this_week"
-      },
-      {
-        "person_or_team": "Zach (Skills doc WIP)",
-        "about": "Coordinate on any overlap between skills documentation and eval framework definitions",
+        "person_or_team": "Dragos / ML-Applied Science",
+        "about": "Confirm ML requirements or constraints for generated evaluations without ground truth",
         "channel": "slack",
         "urgency": "this_week"
       }
     ],
     "must_report_status": [
       {
-        "topic": "AE-1079 generated evaluations design doc progress",
-        "to": "Agents leadership (likely Adrian / Marius)",
-        "via": "confluence or slack",
-        "note": "Have a shareable draft or outline ready before the next bi-weekly TR (~April 1)"
+        "topic": "AE-1079 progress on no-ground-truth evals design",
+        "to": "Agents leadership (likely surfaced at next bi-weekly TR)",
+        "via": "confluence",
+        "note": "Next TR is likely ~4/1; have a reviewable draft ready before then"
       }
     ]
   },
@@ -252,12 +300,12 @@ const BRIEF = {
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake connector broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector not installed"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake connector broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector not installed"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -265,12 +313,25 @@ const BRIEF = {
     }
   },
   "flags": [
-    "Salesforce integration is down (missing simple_salesforce module) \u2014 no visibility into customer escalations.",
-    "Snowflake integration is down (missing connector) \u2014 no product telemetry or funnel metrics available.",
-    "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for impact on your evals workstream.",
-    "March telemetry data noted as needing update on the TR page \u2014 if you own any of that, get it refreshed before month-end."
+    "Salesforce integration is broken (missing simple_salesforce module) \u2014 you have zero visibility on customer escalations.",
+    "Snowflake integration is broken (missing connector) \u2014 you cannot track product metrics or funnel health.",
+    "AE-1079 has no due date set; risk of indefinite deferral \u2014 consider setting a target date today.",
+    "Autopilot is flagged Risk Yellow in the Big Rock TR \u2014 monitor whether this creates downstream work for evals."
   ],
-  "slack_summary": "Clear calendar and no inbound fires \u2014 best day to push hard on AE-1079 (generated evaluations, no ground truth design doc), the only active ticket on your board and a key 26.4 deliverable. Second priority: fix the broken Salesforce and Snowflake integrations so you regain visibility on escalations and product metrics. Zero meetings today."
+  "deliverables": {
+    "tasks_completed": [],
+    "documents": [],
+    "features_or_initiatives": [],
+    "customer_enablement": [],
+    "slack_supported": [],
+    "other": []
+  },
+  "praise": [],
+  "outcomes": {
+    "business_impact": "No escalations or decisions surfaced today; primary business value will come from unblocking the no-ground-truth evals design which is a dependency for the 26.4 evals deliverable.",
+    "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake integration; advancing AE-1079 is the most direct lever to improve eval coverage for customers without labeled data."
+  },
+  "slack_summary": "Quiet day: no meetings, no inbound fires. Top priority is making real progress on AE-1079 (no-ground-truth evals design doc) \u2014 it's your only active ticket and a key 26.4 deliverable. Second, fix the broken Salesforce and Snowflake integrations so you regain visibility on escalations and metrics. Zero meetings today \u2014 use the deep-work time."
 };
 /* BRIEF_DATA_END */
 
@@ -282,6 +343,99 @@ const RAW_DATA = {
   }
 };
 /* RAW_DATA_END */
+
+/* BRIEFS_HISTORY_START */
+const BRIEFS_HISTORY = [
+  {
+    "date": "2026-03-25",
+    "headline": "Clear calendar and no inbound fires \u2014 use today to push the 'no ground truth' evals design doc forward before the next bi-weekly TR.",
+    "todos": {
+      "quick_wins": [
+        {
+          "task": "Fix Salesforce and Snowflake integrations (check env vars and install missing packages)",
+          "why": "You're flying blind on escalations and product metrics \u2014 both feeds are broken",
+          "source": "salesforce",
+          "link": ""
+        }
+      ],
+      "must_close_today": [],
+      "must_make_progress": [
+        {
+          "task": "Draft or significantly advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+          "why": "This is your only active Jira ticket, evals is a key 26.4 deliverable called out in the Big Rock TR, and there's no due date \u2014 meaning it could slip indefinitely if not pushed now",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-1079"
+        },
+        {
+          "task": "Review the Big Rock bi-weekly TR page for any action items or follow-ups assigned to you from the 3/18 meeting",
+          "why": "The TR covers evals, templates, and agent lifecycle \u2014 all adjacent to your work; ensure you're not missing commitments",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
+        }
+      ],
+      "must_communicate_with": [
+        {
+          "person_or_team": "Jordan / Evals team",
+          "about": "Align on scope and open questions for the no-ground-truth evaluation design before you finalize the doc",
+          "channel": "slack",
+          "urgency": "this_week"
+        },
+        {
+          "person_or_team": "Dragos / ML-Applied Science",
+          "about": "Confirm ML requirements or constraints for generated evaluations without ground truth",
+          "channel": "slack",
+          "urgency": "this_week"
+        }
+      ],
+      "must_report_status": [
+        {
+          "topic": "AE-1079 progress on no-ground-truth evals design",
+          "to": "Agents leadership (likely surfaced at next bi-weekly TR)",
+          "via": "confluence",
+          "note": "Next TR is likely ~4/1; have a reviewable draft ready before then"
+        }
+      ]
+    },
+    "meetings_today": [],
+    "metrics_snapshot": {
+      "agents_in_production": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "unavailable \u2014 Snowflake connector not installed"
+      },
+      "evals_adoption": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "unavailable \u2014 Snowflake connector not installed"
+      },
+      "escalations_open": {
+        "value": "unavailable",
+        "critical_count": 0
+      }
+    },
+    "flags": [
+      "Salesforce integration is broken (missing simple_salesforce module) \u2014 you have zero visibility on customer escalations.",
+      "Snowflake integration is broken (missing connector) \u2014 you cannot track product metrics or funnel health.",
+      "AE-1079 has no due date set; risk of indefinite deferral \u2014 consider setting a target date today.",
+      "Autopilot is flagged Risk Yellow in the Big Rock TR \u2014 monitor whether this creates downstream work for evals."
+    ],
+    "deliverables": {
+      "tasks_completed": [],
+      "documents": [],
+      "features_or_initiatives": [],
+      "customer_enablement": [],
+      "slack_supported": [],
+      "other": []
+    },
+    "praise": [],
+    "outcomes": {
+      "business_impact": "No escalations or decisions surfaced today; primary business value will come from unblocking the no-ground-truth evals design which is a dependency for the 26.4 evals deliverable.",
+      "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake integration; advancing AE-1079 is the most direct lever to improve eval coverage for customers without labeled data."
+    },
+    "slack_summary": "Quiet day: no meetings, no inbound fires. Top priority is making real progress on AE-1079 (no-ground-truth evals design doc) \u2014 it's your only active ticket and a key 26.4 deliverable. Second, fix the broken Salesforce and Snowflake integrations so you regain visibility on escalations and metrics. Zero meetings today \u2014 use the deep-work time."
+  }
+];
+/* BRIEFS_HISTORY_END */
 
 let _uid = 0;
 let _openMenu = null;
@@ -351,6 +505,78 @@ function toast(msg) {
   setTimeout(() => t.remove(), 2200);
 }
 
+// ── Briefs ────────────────────────────────────────────────────────────────────
+
+function toggleBrief(idx) {
+  const entry = document.getElementById('brief-entry-' + idx);
+  entry.classList.toggle('open');
+}
+
+function renderDeliverableGroup(label, items, keyFn, linkFn) {
+  if (!items || !items.length) return '';
+  const rows = items.map(i => {
+    const link = linkFn && linkFn(i) ? ` <a href="${linkFn(i)}" target="_blank">↗</a>` : '';
+    return `<div class="deliverable-item">${keyFn(i)}${link}</div>`;
+  }).join('');
+  return `<div class="deliverable-group">
+    <div class="deliverable-group-label">${label}</div>
+    ${rows}
+  </div>`;
+}
+
+function renderBriefs() {
+  // Latest brief outcomes
+  const latest = BRIEFS_HISTORY[0] || BRIEF || {};
+  const outcomes = latest.outcomes || BRIEF.outcomes || {};
+  document.getElementById('outcome-business').textContent = outcomes.business_impact || '—';
+  document.getElementById('outcome-adoption').textContent = outcomes.product_adoption || '—';
+
+  const history = BRIEFS_HISTORY.length ? BRIEFS_HISTORY : (BRIEF && BRIEF.date ? [BRIEF] : []);
+  const container = document.getElementById('list-briefs');
+
+  if (!history.length) {
+    container.innerHTML = '<div class="briefs-empty">No brief history yet — briefs accumulate each morning.</div>';
+    return;
+  }
+
+  container.innerHTML = history.map((b, idx) => {
+    const d = b.deliverables || {};
+    const praise = b.praise || [];
+    const open = idx === 0 ? 'open' : '';
+
+    const delivSections = [
+      renderDeliverableGroup('Tasks completed', d.tasks_completed, i => i.item, i => i.link),
+      renderDeliverableGroup('Documents & PRDs', d.documents, i => i.item, i => i.link),
+      renderDeliverableGroup('Features & initiatives', d.features_or_initiatives, i => i.item, i => i.link),
+      renderDeliverableGroup('Customer enablement', d.customer_enablement, i => i.item, null),
+      renderDeliverableGroup('Slack — supported', d.slack_supported, i => `${i.item}${i.channel ? ` <span style="color:rgba(55,53,47,0.35)">#${i.channel}</span>` : ''}`, null),
+      renderDeliverableGroup('Other outputs', d.other, i => i.item, null),
+    ].filter(Boolean).join('');
+
+    const praiseHtml = praise.length ? `
+      <div class="deliverable-group-label" style="margin-top:20px">Praise</div>
+      <div class="praise-list">${praise.map(p => `
+        <div class="praise-item">
+          <div class="praise-quote">"${p.quote}"</div>
+          <div class="praise-from">${p.from}${p.context ? ' · ' + p.context : ''}</div>
+        </div>`).join('')}
+      </div>` : '';
+
+    const hasContent = delivSections || praiseHtml;
+
+    return `<div class="brief-entry ${open}" id="brief-entry-${idx}">
+      <div class="brief-header" onclick="toggleBrief(${idx})">
+        <span class="brief-chevron">▶</span>
+        <span class="brief-date">${b.date || '—'}</span>
+        <span class="brief-headline">${b.headline || ''}</span>
+      </div>
+      <div class="brief-body">
+        ${hasContent ? delivSections + praiseHtml : '<div class="briefs-empty" style="padding:0 0 8px">No deliverables recorded for this brief.</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 // ── Render ────────────────────────────────────────────────────────────────────
 
 function todoItem(t) {
@@ -366,7 +592,7 @@ function todoItem(t) {
       ${link}
     </div>
     <div class="item-menu-wrap">
-      <button class="item-menu-btn" onclick="openMenu(${uid}, event)">···</button>
+      <button class="item-menu-btn" onclick="openMenu(${uid}, event)">⋮</button>
       <div class="dropdown" id="dd-${uid}">
         <button class="dd-item" onclick="markDone(${uid})">Mark as done</button>
         <button class="dd-item" onclick="moveItem(${uid},'up')">Up importance</button>
@@ -448,6 +674,8 @@ function render() {
         </div>
       </div>`).join('')
     : '<div class="empty">No open escalations</div>';
+
+  renderBriefs();
 }
 
 render();
