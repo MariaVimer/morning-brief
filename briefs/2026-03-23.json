@@ -1,0 +1,105 @@
+{
+  "date": "2026-03-23",
+  "headline": "Design doc review scheduled for Wednesday \u2014 need full draft ready by Tuesday EOD.",
+  "todos": {
+    "quick_wins": [
+      {
+        "task": "Add Section 4 outline (implementation timeline) to design doc",
+        "why": "Reviewers asked for timeline before the Wednesday session",
+        "source": "slack",
+        "link": ""
+      }
+    ],
+    "must_close_today": [
+      {
+        "task": "Complete full draft of AE-1079 design doc",
+        "why": "Review session scheduled for Wed March 25 \u2014 reviewers need 24h to pre-read",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079",
+        "deadline_note": "Must share by Tue EOD"
+      }
+    ],
+    "must_make_progress": [],
+    "must_communicate_with": [
+      {
+        "person_or_team": "Jordan, Dragos, Tomasz",
+        "about": "Share completed design doc draft for Wednesday review",
+        "channel": "slack",
+        "urgency": "today"
+      }
+    ],
+    "must_report_status": [
+      {
+        "topic": "AE-1079 design doc \u2014 draft complete, review scheduled",
+        "to": "Adrian / Marius",
+        "via": "slack",
+        "note": "Brief update so leadership knows review is on track"
+      }
+    ]
+  },
+  "meetings_today": [
+    {
+      "title": "1:1 with Adrian",
+      "time": "09:30",
+      "duration_min": 30,
+      "prep_note": "Confirm Wednesday review attendees and discuss Autopilot Yellow risk update",
+      "attendees_count": 2
+    }
+  ],
+  "metrics_snapshot": {
+    "agents_in_production": {
+      "value": "194",
+      "trend": "up",
+      "vs_goal": "77% of Q2 target"
+    },
+    "evals_adoption": {
+      "value": "26%",
+      "trend": "up",
+      "vs_goal": "Accelerating \u2014 3 new accounts from Friday enablement"
+    },
+    "escalations_open": {
+      "value": 2,
+      "critical_count": 0
+    }
+  },
+  "flags": [
+    "Design doc review is Wednesday \u2014 no room to slip. Must share draft today."
+  ],
+  "deliverables": {
+    "tasks_completed": [],
+    "documents": [
+      {
+        "item": "Completed full draft of AE-1079 no-ground-truth evals design doc (all 4 sections)",
+        "source": "confluence",
+        "link": "https://uipath.atlassian.net/wiki/spaces/Agents"
+      },
+      {
+        "item": "Shared draft with Jordan, Dragos, Tomasz for pre-read",
+        "source": "slack",
+        "link": ""
+      }
+    ],
+    "features_or_initiatives": [],
+    "customer_enablement": [],
+    "slack_supported": [
+      {
+        "item": "Answered Michelin team question on eval dataset size requirements",
+        "channel": "customer-michelin",
+        "source": "slack"
+      }
+    ],
+    "other": []
+  },
+  "praise": [
+    {
+      "from": "Jordan (Templates)",
+      "quote": "Just read the draft \u2014 this is really well structured. The no-ground-truth framing is exactly right.",
+      "context": "slack"
+    }
+  ],
+  "outcomes": {
+    "business_impact": "Full design doc draft completed and shared with reviewers \u2014 on track for Wednesday review and 26.4 delivery.",
+    "product_adoption": "Evals adoption jumped to 26% \u2014 Siemens, ABB, and Michelin accounts now active following Friday enablement session."
+  },
+  "slack_summary": "Design doc is done and shared \u2014 review is Wednesday. Evals adoption at 26%, up 2 points driven by Friday's enablement. Praise from Jordan on the doc structure. 2 open escalations, none critical."
+}

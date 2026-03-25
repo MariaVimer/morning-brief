@@ -1,0 +1,100 @@
+{
+  "date": "2026-03-18",
+  "headline": "Evals design kicked off \u2014 alignment needed with ML before doc can move forward.",
+  "todos": {
+    "quick_wins": [
+      {
+        "task": "Add AE-1079 target date in Jira",
+        "why": "Ticket has no due date and risks slipping",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      }
+    ],
+    "must_close_today": [],
+    "must_make_progress": [
+      {
+        "task": "Outline the no-ground-truth evals design doc",
+        "why": "26.4 deliverable, unblocks downstream ML work",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      }
+    ],
+    "must_communicate_with": [
+      {
+        "person_or_team": "Dragos (ML/Applied Science)",
+        "about": "Align on feasibility of generated evals without labels",
+        "channel": "slack",
+        "urgency": "this_week"
+      }
+    ],
+    "must_report_status": []
+  },
+  "meetings_today": [
+    {
+      "title": "Agents bi-weekly TR",
+      "time": "10:00",
+      "duration_min": 60,
+      "prep_note": "Review Autopilot Yellow risk and evals adoption numbers",
+      "attendees_count": 14
+    },
+    {
+      "title": "1:1 with Adrian",
+      "time": "14:00",
+      "duration_min": 30,
+      "prep_note": "Flag evals design scope and request ML reviewer",
+      "attendees_count": 2
+    }
+  ],
+  "metrics_snapshot": {
+    "agents_in_production": {
+      "value": "187",
+      "trend": "up",
+      "vs_goal": "74% of Q2 target"
+    },
+    "evals_adoption": {
+      "value": "23%",
+      "trend": "flat",
+      "vs_goal": "Below 40% goal"
+    },
+    "escalations_open": {
+      "value": 4,
+      "critical_count": 1
+    }
+  },
+  "flags": [
+    "Autopilot flagged Yellow in TR \u2014 downstream evals work may expand in scope.",
+    "1 critical escalation open with Accenture \u2014 awaiting engineering triage."
+  ],
+  "deliverables": {
+    "tasks_completed": [
+      {
+        "item": "Created AE-1079 and wrote initial problem statement",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      }
+    ],
+    "documents": [],
+    "features_or_initiatives": [
+      {
+        "item": "Kicked off no-ground-truth evaluations initiative (evals 26.4)",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      }
+    ],
+    "customer_enablement": [],
+    "slack_supported": [
+      {
+        "item": "Answered question about eval metric definitions in #agents-pm",
+        "channel": "agents-pm",
+        "source": "slack"
+      }
+    ],
+    "other": []
+  },
+  "praise": [],
+  "outcomes": {
+    "business_impact": "Kicked off the no-ground-truth evals initiative and aligned leadership at bi-weekly TR on scope and 26.4 timeline.",
+    "product_adoption": "Evals adoption at 23%, flat vs last week \u2014 design doc is the primary lever to unlock new customers."
+  },
+  "slack_summary": "Evals design kicked off today. Created AE-1079 and flagged scope with Adrian. Autopilot risk is yellow \u2014 monitoring for downstream impact. 4 open escalations including 1 critical with Accenture."
+}

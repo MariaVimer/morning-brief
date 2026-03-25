@@ -1,0 +1,113 @@
+{
+  "date": "2026-03-20",
+  "headline": "Customer enablement session delivered \u2014 three prospects now unblocked on evals setup.",
+  "todos": {
+    "quick_wins": [
+      {
+        "task": "Send follow-up resources to Siemens after enablement call",
+        "why": "Promised eval framework doc links during the call",
+        "source": "email",
+        "link": ""
+      }
+    ],
+    "must_close_today": [],
+    "must_make_progress": [
+      {
+        "task": "Complete Section 3 (evaluation metrics) of AE-1079 design doc",
+        "why": "Dragos is waiting to review metrics section before ML estimation",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/browse/AE-1079"
+      }
+    ],
+    "must_communicate_with": [
+      {
+        "person_or_team": "Marius (leadership)",
+        "about": "Quick update on evals doc progress and enablement outcomes",
+        "channel": "slack",
+        "urgency": "today"
+      }
+    ],
+    "must_report_status": []
+  },
+  "meetings_today": [
+    {
+      "title": "Customer enablement \u2014 Siemens, ABB, Michelin",
+      "time": "09:00",
+      "duration_min": 90,
+      "prep_note": "Walk through eval framework setup guide and answer live questions",
+      "attendees_count": 11
+    },
+    {
+      "title": "Friday product standup",
+      "time": "15:00",
+      "duration_min": 30,
+      "prep_note": "Share evals doc status and customer enablement outcomes",
+      "attendees_count": 8
+    }
+  ],
+  "metrics_snapshot": {
+    "agents_in_production": {
+      "value": "191",
+      "trend": "up",
+      "vs_goal": "76% of Q2 target"
+    },
+    "evals_adoption": {
+      "value": "24%",
+      "trend": "flat",
+      "vs_goal": "Below 40% goal"
+    },
+    "escalations_open": {
+      "value": 2,
+      "critical_count": 0
+    }
+  },
+  "flags": [],
+  "deliverables": {
+    "tasks_completed": [
+      {
+        "item": "Sent Siemens follow-up with eval framework resources",
+        "source": "email",
+        "link": ""
+      }
+    ],
+    "documents": [
+      {
+        "item": "Completed Section 3 (evaluation metrics) of AE-1079 design doc",
+        "source": "confluence",
+        "link": "https://uipath.atlassian.net/wiki/spaces/Agents"
+      }
+    ],
+    "features_or_initiatives": [],
+    "customer_enablement": [
+      {
+        "item": "Led evals enablement session for Siemens, ABB, and Michelin \u2014 3 prospects unblocked on setup",
+        "source": "email"
+      }
+    ],
+    "slack_supported": [
+      {
+        "item": "Answered post-session eval config questions from ABB team",
+        "channel": "customer-abb",
+        "source": "slack"
+      }
+    ],
+    "other": []
+  },
+  "praise": [
+    {
+      "from": "Elena (Siemens)",
+      "quote": "This was the clearest explanation of the eval framework we've heard \u2014 finally feel confident to move forward.",
+      "context": "email"
+    },
+    {
+      "from": "Marius (leadership)",
+      "quote": "Great work on the enablement call \u2014 this is exactly the kind of customer investment we need right now.",
+      "context": "slack"
+    }
+  ],
+  "outcomes": {
+    "business_impact": "Three enterprise customers (Siemens, ABB, Michelin) unblocked on evals setup \u2014 direct pipeline impact for Q2 expansion deals.",
+    "product_adoption": "Enablement session directly drives adoption for 3 accounts. Evals design doc Section 3 complete, accelerating ML review timeline."
+  },
+  "slack_summary": "High-impact Friday. Led enablement for Siemens, ABB, and Michelin \u2014 3 customers now unblocked. Finished Section 3 of the evals design doc. 2 open escalations, none critical. Praise from Siemens and Marius for the session quality."
+}
