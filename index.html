@@ -308,6 +308,17 @@
         <h2>Flags</h2>
         <div id="list-flags"></div>
       </div>
+      <h2>Maria's impact</h2>
+      <div class="outcomes-grid" id="overview-outcomes">
+        <div class="outcome-card">
+          <div class="outcome-label">Business Impact</div>
+          <div class="outcome-text" id="ov-business">—</div>
+        </div>
+        <div class="outcome-card">
+          <div class="outcome-label">Product Adoption</div>
+          <div class="outcome-text" id="ov-adoption">—</div>
+        </div>
+      </div>
     </div>
 
     <div class="section" id="section-todos">
@@ -1313,6 +1324,10 @@ function render() {
     document.getElementById('flags-section').style.display = 'block';
     document.getElementById('list-flags').innerHTML = flags.map(f => `<div class="flag-item">${f}</div>`).join('');
   }
+
+  const oc = BRIEF.outcomes || {};
+  document.getElementById('ov-business').textContent = oc.business_impact || '—';
+  document.getElementById('ov-adoption').textContent = oc.product_adoption || '—';
 
   const meetings = BRIEF.meetings_today || [];
   document.getElementById('list-meetings').innerHTML = meetings.length
