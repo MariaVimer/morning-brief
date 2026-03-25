@@ -10,6 +10,8 @@ on:
 jobs:
   generate-brief:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
