@@ -19,7 +19,7 @@
 
     /* Notes panel */
     .notes-panel {
-      position: fixed; top: 0; right: 0; bottom: 0; width: 300px;
+      position: fixed; top: 0; right: 0; bottom: 0; width: 340px;
       background: #fff; border-left: 1px solid rgba(55,53,47,0.09);
       display: flex; flex-direction: column; z-index: 100;
       transform: translateX(100%); transition: transform 0.18s ease;
@@ -27,55 +27,54 @@
     .notes-panel.open { transform: translateX(0); }
     .notes-header {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 16px 12px; border-bottom: 1px solid rgba(55,53,47,0.09);
-      flex-shrink: 0;
+      padding: 14px 16px 10px; border-bottom: 1px solid rgba(55,53,47,0.09); flex-shrink: 0;
     }
     .notes-title { font-size: 13px; font-weight: 600; }
     .notes-close {
       background: none; border: none; cursor: pointer; font-size: 16px;
-      color: rgba(55,53,47,0.4); line-height: 1; padding: 2px 4px; border-radius: 3px;
+      color: rgba(55,53,47,0.4); line-height: 1; padding: 2px 5px; border-radius: 3px;
     }
     .notes-close:hover { background: rgba(55,53,47,0.06); color: rgb(55,53,47); }
-    .notes-input-area {
-      padding: 12px 14px; border-bottom: 1px solid rgba(55,53,47,0.09); flex-shrink: 0;
-    }
-    .notes-textarea {
-      width: 100%; border: 1px solid rgba(55,53,47,0.15); border-radius: 6px;
-      padding: 8px 10px; font-size: 13px; font-family: inherit; resize: none;
-      color: rgb(55,53,47); outline: none; line-height: 1.5; min-height: 72px;
-    }
-    .notes-textarea:focus { border-color: rgba(55,53,47,0.35); }
-    .notes-add-btn {
-      margin-top: 8px; width: 100%; padding: 6px; font-size: 13px; font-family: inherit;
-      background: rgb(55,53,47); color: #fff; border: none; border-radius: 6px;
-      cursor: pointer; font-weight: 500;
-    }
-    .notes-add-btn:hover { background: rgba(55,53,47,0.85); }
-    .notes-list { flex: 1; overflow-y: auto; padding: 8px 0; }
-    .note-item {
-      padding: 10px 14px; border-bottom: 1px solid rgba(55,53,47,0.06);
-      position: relative;
-    }
-    .note-item:last-child { border-bottom: none; }
-    .note-item:hover { background: rgba(55,53,47,0.02); }
-    .note-text { font-size: 13px; color: rgb(55,53,47); line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
-    .note-text a { color: rgba(55,53,47,0.6); text-decoration: underline; }
-    .note-text a:hover { color: rgb(55,53,47); }
-    .note-meta { font-size: 11px; color: rgba(55,53,47,0.35); margin-top: 4px; }
-    .note-delete {
-      position: absolute; top: 8px; right: 10px; background: none; border: none;
-      cursor: pointer; font-size: 13px; color: rgba(55,53,47,0.25); display: none; padding: 2px 5px; border-radius: 3px;
-    }
-    .note-item:hover .note-delete { display: block; }
-    .note-delete:hover { color: rgb(220,80,80); background: rgba(220,80,80,0.07); }
-    .notes-empty { padding: 24px 14px; font-size: 13px; color: rgba(55,53,47,0.35); }
 
-    /* Notes toggle button */
+    /* Toolbar */
+    .notes-toolbar {
+      display: flex; align-items: center; gap: 1px; padding: 6px 10px;
+      border-bottom: 1px solid rgba(55,53,47,0.09); flex-shrink: 0; flex-wrap: wrap;
+    }
+    .tb-btn {
+      background: none; border: none; cursor: pointer; border-radius: 4px;
+      padding: 3px 7px; font-size: 12px; font-family: inherit; color: rgba(55,53,47,0.55);
+      line-height: 1.4;
+    }
+    .tb-btn:hover { background: rgba(55,53,47,0.07); color: rgb(55,53,47); }
+    .tb-btn.active { background: rgba(55,53,47,0.1); color: rgb(55,53,47); }
+    .tb-sep { width: 1px; height: 16px; background: rgba(55,53,47,0.12); margin: 0 4px; }
+
+    /* Editor */
+    .notes-editor {
+      flex: 1; overflow-y: auto; padding: 20px 20px 40px; outline: none;
+      font-size: 14px; color: rgb(55,53,47); line-height: 1.7; word-break: break-word;
+    }
+    .notes-editor:empty::before {
+      content: 'Start writing…'; color: rgba(55,53,47,0.3); pointer-events: none;
+    }
+    .notes-editor h1 { font-size: 22px; font-weight: 700; margin: 16px 0 6px; line-height: 1.3; }
+    .notes-editor h2 { font-size: 17px; font-weight: 600; margin: 14px 0 4px; line-height: 1.3; }
+    .notes-editor h3 { font-size: 14px; font-weight: 600; margin: 10px 0 2px; }
+    .notes-editor p { margin: 0 0 4px; }
+    .notes-editor ul, .notes-editor ol { padding-left: 20px; margin: 4px 0; }
+    .notes-editor li { margin-bottom: 2px; }
+    .notes-editor a { color: rgba(55,53,47,0.6); text-decoration: underline; }
+    .notes-editor a:hover { color: rgb(55,53,47); }
+    .notes-editor code { font-family: ui-monospace, monospace; font-size: 12px; background: rgba(55,53,47,0.06); padding: 1px 4px; border-radius: 3px; }
+    .notes-editor hr { border: none; border-top: 1px solid rgba(55,53,47,0.12); margin: 12px 0; }
+
+    /* Notes toggle */
     .notes-toggle {
       position: fixed; top: 14px; right: 16px; z-index: 101;
       background: #fff; border: 1px solid rgba(55,53,47,0.15); border-radius: 6px;
       padding: 5px 11px; font-size: 12px; font-family: inherit; cursor: pointer;
-      color: rgba(55,53,47,0.6); display: flex; align-items: center; gap: 5px;
+      color: rgba(55,53,47,0.6);
     }
     .notes-toggle:hover { background: rgba(55,53,47,0.04); color: rgb(55,53,47); }
 
@@ -1288,74 +1287,64 @@ render();
 
 // ── Notes ─────────────────────────────────────────────────────────────────────
 
-const NOTES_KEY = 'morning-brief-notes';
+const NOTES_DOC_KEY = 'morning-brief-notes-doc';
+let _notesSaveTimer = null;
 
-function loadNotes() {
-  try { return JSON.parse(localStorage.getItem(NOTES_KEY) || '[]'); } catch { return []; }
+function notesLoad() {
+  const ed = document.getElementById('notes-editor');
+  const saved = localStorage.getItem(NOTES_DOC_KEY);
+  if (saved) ed.innerHTML = saved;
 }
 
-function saveNotes(notes) {
-  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+function notesSave() {
+  const ed = document.getElementById('notes-editor');
+  localStorage.setItem(NOTES_DOC_KEY, ed.innerHTML);
 }
 
-function formatNoteDate(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' · ' +
-         d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+function notesDebounceSave() {
+  clearTimeout(_notesSaveTimer);
+  _notesSaveTimer = setTimeout(notesSave, 400);
 }
 
-const URL_RE = /https?:\/\/[^\s]+/g;
-
-function linkify(text) {
-  return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(URL_RE, url => `<a href="${url}" target="_blank">${url}</a>`);
+function fmt(cmd) {
+  document.getElementById('notes-editor').focus();
+  document.execCommand(cmd, false, null);
+  updateToolbarState();
 }
 
-function renderNotesList() {
-  const notes = loadNotes();
-  const list = document.getElementById('notes-list');
-  if (!notes.length) {
-    list.innerHTML = '<div class="notes-empty">No notes yet — add one above.</div>';
-    return;
+function fmtBlock(tag) {
+  document.getElementById('notes-editor').focus();
+  document.execCommand('formatBlock', false, tag);
+  updateToolbarState();
+}
+
+function fmtLink() {
+  const sel = window.getSelection().toString().trim();
+  const url = prompt('URL:', sel.startsWith('http') ? sel : 'https://');
+  if (url) {
+    document.getElementById('notes-editor').focus();
+    document.execCommand('createLink', false, url);
   }
-  list.innerHTML = notes.map((n, idx) => `
-    <div class="note-item">
-      <div class="note-text">${linkify(n.text)}</div>
-      <div class="note-meta">${formatNoteDate(n.created)}</div>
-      <button class="note-delete" onclick="deleteNote(${idx})" title="Delete">✕</button>
-    </div>`).join('');
 }
 
-function addNote() {
-  const ta = document.getElementById('notes-textarea');
-  const text = ta.value.trim();
-  if (!text) return;
-  const notes = loadNotes();
-  notes.unshift({ id: Date.now(), text, created: new Date().toISOString() });
-  saveNotes(notes);
-  ta.value = '';
-  renderNotesList();
-}
-
-function deleteNote(idx) {
-  const notes = loadNotes();
-  notes.splice(idx, 1);
-  saveNotes(notes);
-  renderNotesList();
+function updateToolbarState() {
+  const cmds = ['bold','italic','underline','strikeThrough','insertUnorderedList','insertOrderedList'];
+  cmds.forEach(cmd => {
+    const btn = document.querySelector(`.tb-btn[data-cmd="${cmd}"]`);
+    if (btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
 }
 
 function toggleNotes() {
   const panel = document.getElementById('notes-panel');
-  panel.classList.toggle('open');
-  if (panel.classList.contains('open')) renderNotesList();
+  const isOpen = panel.classList.toggle('open');
+  if (isOpen) { notesLoad(); document.getElementById('notes-editor').focus(); }
+  else notesSave();
 }
 
-// Submit on Cmd/Ctrl+Enter
-document.addEventListener('keydown', e => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-    const panel = document.getElementById('notes-panel');
-    if (panel.classList.contains('open') && document.activeElement.id === 'notes-textarea') addNote();
-  }
+document.addEventListener('selectionchange', () => {
+  const panel = document.getElementById('notes-panel');
+  if (panel && panel.classList.contains('open')) updateToolbarState();
 });
 </script>
 
@@ -1366,14 +1355,25 @@ document.addEventListener('keydown', e => {
     <span class="notes-title">Notes</span>
     <button class="notes-close" onclick="toggleNotes()">×</button>
   </div>
-  <div class="notes-input-area">
-    <textarea class="notes-textarea" id="notes-textarea"
-      placeholder="Write a note, paste a link, add a recording URL…&#10;&#10;Cmd+Enter to save"></textarea>
-    <button class="notes-add-btn" onclick="addNote()">+ Add note</button>
+  <div class="notes-toolbar">
+    <button class="tb-btn" data-cmd="bold"               onclick="fmt('bold')"               title="Bold"><b>B</b></button>
+    <button class="tb-btn" data-cmd="italic"             onclick="fmt('italic')"             title="Italic"><i>I</i></button>
+    <button class="tb-btn" data-cmd="underline"          onclick="fmt('underline')"          title="Underline"><u>U</u></button>
+    <button class="tb-btn" data-cmd="strikeThrough"      onclick="fmt('strikeThrough')"      title="Strikethrough"><s>S</s></button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" onclick="fmtBlock('h1')"  title="Heading 1">H1</button>
+    <button class="tb-btn" onclick="fmtBlock('h2')"  title="Heading 2">H2</button>
+    <button class="tb-btn" onclick="fmtBlock('h3')"  title="Heading 3">H3</button>
+    <button class="tb-btn" onclick="fmtBlock('p')"   title="Body text">¶</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" data-cmd="insertUnorderedList" onclick="fmt('insertUnorderedList')" title="Bullet list">•</button>
+    <button class="tb-btn" data-cmd="insertOrderedList"   onclick="fmt('insertOrderedList')"   title="Numbered list">1.</button>
+    <button class="tb-btn" onclick="fmtLink()"           title="Link">⌘K</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" onclick="document.execCommand('insertHorizontalRule')" title="Divider">—</button>
   </div>
-  <div class="notes-list" id="notes-list">
-    <div class="notes-empty">No notes yet — add one above.</div>
-  </div>
+  <div class="notes-editor" id="notes-editor" contenteditable="true" spellcheck="true"
+       oninput="notesDebounceSave()" onblur="notesSave()"></div>
 </div>
 </body>
 </html>
