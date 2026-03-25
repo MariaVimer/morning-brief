@@ -77,6 +77,60 @@
       color: rgba(55,53,47,0.6);
     }
     .notes-toggle:hover { background: rgba(55,53,47,0.04); color: rgb(55,53,47); }
+    .notes-sync-btn {
+      font-size: 11px; padding: 3px 9px; border-radius: 5px; font-family: inherit;
+      background: rgb(55,53,47); color: #fff; border: none; cursor: pointer; font-weight: 500;
+    }
+    .notes-sync-btn:hover { background: rgba(55,53,47,0.78); }
+    .notes-sync-btn:disabled { opacity: 0.45; cursor: default; }
+
+    /* Sync modal */
+    .sync-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(2px); z-index: 200; align-items: center; justify-content: center;
+    }
+    .sync-overlay.open { display: flex; }
+    .sync-modal {
+      background: #fff; border: 1px solid rgba(55,53,47,0.14); border-radius: 10px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12); width: 640px; max-width: 92vw;
+      max-height: 82vh; display: flex; flex-direction: column;
+    }
+    .sync-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px 14px; border-bottom: 1px solid rgba(55,53,47,0.09); flex-shrink: 0;
+    }
+    .sync-modal-title { font-size: 15px; font-weight: 600; }
+    .sync-modal-date { font-size: 12px; color: rgba(55,53,47,0.45); margin-top: 2px; }
+    .sync-modal-close {
+      background: none; border: none; cursor: pointer; font-size: 18px;
+      color: rgba(55,53,47,0.4); padding: 2px 6px; border-radius: 4px;
+    }
+    .sync-modal-close:hover { background: rgba(55,53,47,0.06); color: rgb(55,53,47); }
+    .sync-modal-body { flex: 1; overflow-y: auto; padding: 22px 24px 28px; }
+    .sync-loading { display: flex; align-items: center; gap: 10px; color: rgba(55,53,47,0.5); font-size: 13px; padding: 24px 0; }
+    .sync-spinner { width: 16px; height: 16px; border: 2px solid rgba(55,53,47,0.15); border-top-color: rgb(55,53,47); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .sync-error { color: rgb(200,60,60); font-size: 13px; line-height: 1.6; }
+    .sync-result h2 { font-size: 14px; font-weight: 600; color: rgb(55,53,47); margin: 22px 0 7px; padding-bottom: 4px; border-bottom: 1px solid rgba(55,53,47,0.08); }
+    .sync-result h2:first-child { margin-top: 0; }
+    .sync-result p { font-size: 13px; color: rgb(55,53,47); line-height: 1.7; margin-bottom: 8px; }
+    .sync-result ul { padding-left: 18px; margin: 4px 0 10px; }
+    .sync-result li { font-size: 13px; color: rgb(55,53,47); line-height: 1.6; margin-bottom: 3px; }
+    .sync-result strong { font-weight: 600; }
+    .sync-result em { font-style: italic; }
+    .sync-api-prompt {
+      font-size: 13px; color: rgba(55,53,47,0.6); line-height: 1.6; margin-bottom: 16px;
+    }
+    .sync-key-input {
+      width: 100%; border: 1px solid rgba(55,53,47,0.2); border-radius: 6px;
+      padding: 8px 10px; font-size: 13px; font-family: inherit; outline: none; margin-bottom: 10px;
+    }
+    .sync-key-input:focus { border-color: rgba(55,53,47,0.4); }
+    .sync-key-submit {
+      padding: 7px 18px; background: rgb(55,53,47); color: #fff; border: none;
+      border-radius: 6px; font-size: 13px; font-family: inherit; cursor: pointer; font-weight: 500;
+    }
+    .sync-key-submit:hover { background: rgba(55,53,47,0.8); }
 
     nav {
       padding: 12px 8px;
@@ -1346,14 +1400,162 @@ document.addEventListener('selectionchange', () => {
   const panel = document.getElementById('notes-panel');
   if (panel && panel.classList.contains('open')) updateToolbarState();
 });
+
+// ── Sync to Claude ─────────────────────────────────────────────────────────────
+
+const CLAUDE_KEY_STORAGE = 'mb-anthropic-key';
+const SYNC_HISTORY_KEY   = 'mb-sync-history';
+
+function renderMarkdown(md) {
+  return md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3 style="font-size:13px;font-weight:600;margin:14px 0 4px">$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`)
+    .replace(/\n\n+/g, '</p><p>')
+    .replace(/^(?!<[hup])/gm, '')
+    .replace(/^(.+)$/gm, (l) => l.startsWith('<') ? l : `<p>${l}</p>`)
+    .replace(/<p><\/p>/g, '');
+}
+
+function openSyncOverlay(html) {
+  document.getElementById('sync-modal-body').innerHTML = html;
+  document.getElementById('sync-overlay').classList.add('open');
+}
+
+function closeSyncModal() {
+  document.getElementById('sync-overlay').classList.remove('open');
+}
+
+async function runSync(apiKey) {
+  const btn = document.getElementById('sync-btn');
+  btn.disabled = true;
+  btn.textContent = 'Syncing…';
+
+  const notesText = (document.getElementById('notes-editor').innerText || '').trim();
+  const briefDate = BRIEF.date || '';
+  const briefContext = JSON.stringify({
+    date: BRIEF.date,
+    headline: BRIEF.headline,
+    todos: BRIEF.todos,
+    metrics_snapshot: BRIEF.metrics_snapshot,
+    deliverables: BRIEF.deliverables,
+    praise: BRIEF.praise,
+    outcomes: BRIEF.outcomes,
+    flags: BRIEF.flags,
+  }, null, 2);
+
+  openSyncOverlay(`<div class="sync-loading"><div class="sync-spinner"></div>Analyzing your impact and career trajectory…</div>`);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-6',
+        max_tokens: 2048,
+        system: `You are a career coach and professional impact tracker for a senior Product Manager at UiPath.
+
+Given a morning brief (synthesized from Jira, Slack, calendar, and metrics) and the PM's personal notes, analyze their work and provide sharp, specific insights about their professional impact and career trajectory.
+
+Use exactly these section headings:
+## Today's Impact
+## Career Signals
+## Skills Demonstrated
+## Relationships That Matter
+## Growth Edge
+## Your Career Story
+
+Rules:
+- Reference actual details from the brief and notes — never be generic
+- Be candid and growth-oriented, not just flattering
+- Keep each section focused: 2–4 sentences or bullet points
+- "Your Career Story" should be a compelling 2–3 sentence narrative of this day as a career chapter`,
+        messages: [{
+          role: 'user',
+          content: `Today is ${briefDate}.\n\n## Morning Brief\n\`\`\`json\n${briefContext}\n\`\`\`\n\n## Personal Notes\n${notesText || '(no notes added today)'}`,
+        }],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      if (res.status === 401) { localStorage.removeItem(CLAUDE_KEY_STORAGE); }
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const text = data.content[0].text;
+
+    // Save to history
+    const hist = JSON.parse(localStorage.getItem(SYNC_HISTORY_KEY) || '[]');
+    hist.unshift({ date: briefDate, text, synced: new Date().toISOString() });
+    localStorage.setItem(SYNC_HISTORY_KEY, JSON.stringify(hist.slice(0, 60)));
+
+    openSyncOverlay(`<div class="sync-result">${renderMarkdown(text)}</div>`);
+    document.getElementById('sync-modal-title').textContent = 'Career & Impact Analysis';
+    document.getElementById('sync-modal-date').textContent = new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+
+  } catch (e) {
+    openSyncOverlay(`<div class="sync-error"><strong>Error:</strong> ${e.message}</div>`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sync to Claude';
+  }
+}
+
+function syncToClaude() {
+  const apiKey = localStorage.getItem(CLAUDE_KEY_STORAGE);
+  if (apiKey) { runSync(apiKey); return; }
+
+  // First time — ask for API key
+  openSyncOverlay(`
+    <p class="sync-api-prompt">Enter your Anthropic API key to enable career tracking. It's stored only in your browser's localStorage and never sent to GitHub or any server other than Anthropic.</p>
+    <input class="sync-key-input" id="sync-key-input" type="password" placeholder="sk-ant-api03-…" />
+    <button class="sync-key-submit" onclick="
+      const k = document.getElementById('sync-key-input').value.trim();
+      if (!k) return;
+      localStorage.setItem('${CLAUDE_KEY_STORAGE}', k);
+      runSync(k);
+    ">Connect & Sync</button>`);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSyncModal();
+});
 </script>
+
+<!-- Sync modal -->
+<div class="sync-overlay" id="sync-overlay" onclick="if(event.target===this)closeSyncModal()">
+  <div class="sync-modal">
+    <div class="sync-modal-header">
+      <div>
+        <div class="sync-modal-title" id="sync-modal-title">Sync to Claude</div>
+        <div class="sync-modal-date" id="sync-modal-date"></div>
+      </div>
+      <button class="sync-modal-close" onclick="closeSyncModal()">×</button>
+    </div>
+    <div class="sync-modal-body" id="sync-modal-body"></div>
+  </div>
+</div>
 
 <button class="notes-toggle" onclick="toggleNotes()">Notes</button>
 
 <div class="notes-panel" id="notes-panel">
   <div class="notes-header">
     <span class="notes-title">Notes</span>
-    <button class="notes-close" onclick="toggleNotes()">×</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="notes-sync-btn" id="sync-btn" onclick="syncToClaude()">Sync to Claude</button>
+      <button class="notes-close" onclick="toggleNotes()">×</button>
+    </div>
   </div>
   <div class="notes-toolbar">
     <button class="tb-btn" data-cmd="bold"               onclick="fmt('bold')"               title="Bold"><b>B</b></button>
