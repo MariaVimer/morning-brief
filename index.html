@@ -5,192 +5,185 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Morning Brief</title>
   <style>
-    :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --surface2: #22263a;
-      --border: #2e3250;
-      --text: #e8eaf6;
-      --muted: #8892b0;
-      --accent: #7c83f5;
-      --red: #f87171;
-      --yellow: #fbbf24;
-      --green: #34d399;
-      --blue: #60a5fa;
-      --purple: #a78bfa;
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-           background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* Layout */
+    body {
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #fff;
+      color: rgb(55, 53, 47);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     .shell { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
-    nav { background: var(--surface); border-right: 1px solid var(--border);
-          padding: 24px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
-    main { padding: 32px 40px; max-width: 1100px; }
 
-    /* Nav */
-    .nav-logo { padding: 0 20px 24px; font-size: 13px; font-weight: 700;
-                letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
-    .nav-date { padding: 0 20px 20px; font-size: 12px; color: var(--muted); }
-    .nav-item { display: block; padding: 9px 20px; font-size: 13px; color: var(--muted);
-                text-decoration: none; cursor: pointer; transition: all .15s;
-                border-left: 3px solid transparent; }
-    .nav-item:hover, .nav-item.active { color: var(--text); background: var(--surface2);
-                                         border-left-color: var(--accent); }
-    .nav-section { padding: 16px 20px 6px; font-size: 10px; text-transform: uppercase;
-                   letter-spacing: 0.1em; color: var(--muted); }
+    nav {
+      padding: 12px 8px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid rgba(55,53,47,0.09);
+    }
+    .nav-title { font-size: 13px; font-weight: 600; padding: 6px 8px 2px; }
+    .nav-date { font-size: 12px; padding: 2px 8px 12px; color: rgba(55,53,47,0.5); }
+    .nav-item {
+      display: block; padding: 5px 8px; font-size: 13px;
+      color: rgba(55,53,47,0.7); text-decoration: none; cursor: pointer; border-radius: 4px;
+    }
+    .nav-item:hover { background: rgba(55,53,47,0.06); color: rgb(55,53,47); }
+    .nav-item.active { background: rgba(55,53,47,0.08); color: rgb(55,53,47); }
+    .nav-group {
+      font-size: 11px; font-weight: 600; color: rgba(55,53,47,0.4);
+      padding: 14px 8px 4px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
 
-    /* Section */
+    main { padding: 48px 96px; max-width: 900px; }
+
     .section { display: none; }
     .section.active { display: block; }
 
-    /* Headline card */
-    .headline-card { background: linear-gradient(135deg, #1e2140, #252b4a);
-                     border: 1px solid var(--border); border-radius: 12px;
-                     padding: 24px; margin-bottom: 28px; }
-    .headline-card h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
-    .headline-card .sub { font-size: 13px; color: var(--muted); }
+    .page-title { font-size: 30px; font-weight: 700; margin-bottom: 4px; }
+    .page-subtitle { font-size: 13px; color: rgba(55,53,47,0.5); margin-bottom: 40px; }
 
-    /* Metrics row */
-    .metrics-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                   gap: 16px; margin-bottom: 28px; }
-    .metric-card { background: var(--surface); border: 1px solid var(--border);
-                   border-radius: 10px; padding: 18px; }
-    .metric-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em;
-                    color: var(--muted); margin-bottom: 8px; }
-    .metric-value { font-size: 26px; font-weight: 700; color: var(--text); }
-    .metric-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .trend-up { color: var(--green); }
-    .trend-down { color: var(--red); }
-    .trend-flat { color: var(--muted); }
+    h2 {
+      font-size: 13px; font-weight: 600; color: rgba(55,53,47,0.5);
+      text-transform: uppercase; letter-spacing: 0.05em; margin: 32px 0 12px;
+    }
+    h2:first-of-type { margin-top: 0; }
 
-    /* Todo sections */
-    .section-title { font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
-                     margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .badge { display: inline-block; background: var(--surface2); border-radius: 20px;
-             padding: 2px 9px; font-size: 11px; font-weight: 600; }
-    .badge.red { background: rgba(248,113,113,.15); color: var(--red); }
-    .badge.yellow { background: rgba(251,191,36,.12); color: var(--yellow); }
-    .badge.blue { background: rgba(96,165,250,.12); color: var(--blue); }
-    .badge.green { background: rgba(52,211,153,.12); color: var(--green); }
-    .badge.purple { background: rgba(167,139,250,.12); color: var(--purple); }
+    .headline {
+      font-size: 16px; color: rgb(55,53,47); margin-bottom: 40px;
+      padding-bottom: 24px; border-bottom: 1px solid rgba(55,53,47,0.09);
+    }
 
-    .todo-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .todo-item { background: var(--surface); border: 1px solid var(--border);
-                 border-radius: 8px; padding: 14px 16px; }
-    .todo-task { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
-    .todo-why { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-    .todo-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .chip { font-size: 11px; background: var(--surface2); border-radius: 4px;
-            padding: 2px 8px; color: var(--muted); }
-    .chip a { color: var(--accent); text-decoration: none; }
-    .chip a:hover { text-decoration: underline; }
+    /* Todo items */
+    .todo-item {
+      display: flex; align-items: flex-start; gap: 6px;
+      margin-bottom: 16px; position: relative;
+    }
+    .item-content { flex: 1; min-width: 0; }
+    .todo-task { font-size: 14px; color: rgb(55,53,47); margin-bottom: 2px; }
+    .todo-why { font-size: 13px; color: rgba(55,53,47,0.6); }
+    .todo-link {
+      font-size: 12px; color: rgba(55,53,47,0.4); text-decoration: none; display: inline-block; margin-top: 1px;
+    }
+    .todo-link:hover { color: rgb(55,53,47); text-decoration: underline; }
+
+    .todo-item.done .todo-task { text-decoration: line-through; color: rgba(55,53,47,0.35); }
+    .todo-item.done .todo-why { opacity: 0.4; }
+
+    /* Ellipsis menu */
+    .item-menu-wrap { position: relative; flex-shrink: 0; margin-top: 1px; }
+    .item-menu-btn {
+      opacity: 0; background: none; border: none; cursor: pointer;
+      color: rgba(55,53,47,0.45); padding: 1px 5px; border-radius: 3px;
+      font-size: 15px; line-height: 1; transition: opacity 0.1s;
+    }
+    .todo-item:hover .item-menu-btn { opacity: 1; }
+    .item-menu-btn:hover { background: rgba(55,53,47,0.08); color: rgb(55,53,47); }
+
+    .dropdown {
+      display: none; position: absolute; right: 0; top: 22px; z-index: 200;
+      background: #fff; border: 1px solid rgba(55,53,47,0.15);
+      border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      min-width: 168px; padding: 4px;
+    }
+    .dropdown.open { display: block; }
+    .dd-item {
+      display: block; width: 100%; text-align: left; background: none; border: none;
+      padding: 6px 10px; font-size: 13px; color: rgb(55,53,47); cursor: pointer;
+      border-radius: 3px; font-family: inherit;
+    }
+    .dd-item:hover { background: rgba(55,53,47,0.06); }
+    .dd-item.danger { color: rgb(220, 80, 80); }
+
+    /* Metrics */
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 8px; }
+    .metric-label { font-size: 12px; color: rgba(55,53,47,0.5); margin-bottom: 4px; }
+    .metric-value { font-size: 22px; font-weight: 600; }
+    .metric-note { font-size: 12px; color: rgba(55,53,47,0.5); margin-top: 2px; }
 
     /* Meetings */
-    .meeting-card { background: var(--surface); border: 1px solid var(--border);
-                    border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
-    .meeting-title { font-size: 14px; font-weight: 500; }
-    .meeting-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
-    .meeting-prep { font-size: 12px; color: var(--yellow); margin-top: 6px;
-                    border-top: 1px solid var(--border); padding-top: 6px; }
+    .meeting-item { margin-bottom: 16px; }
+    .meeting-title { font-size: 14px; }
+    .meeting-meta { font-size: 12px; color: rgba(55,53,47,0.5); margin-top: 1px; }
+    .meeting-prep { font-size: 12px; color: rgba(55,53,47,0.6); margin-top: 3px; }
 
     /* Flags */
-    .flag-item { background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.2);
-                 border-radius: 8px; padding: 12px 16px; margin-bottom: 10px;
-                 font-size: 13px; color: var(--yellow); }
+    .flag-item {
+      font-size: 13px; color: rgba(55,53,47,0.7);
+      margin-bottom: 10px; padding-left: 14px; position: relative;
+    }
+    .flag-item::before { content: "!"; position: absolute; left: 0; color: rgba(55,53,47,0.35); font-weight: 600; }
 
-    /* Refresh */
-    .refresh-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
-                   font-size: 12px; color: var(--muted); }
-    .refresh-bar button { background: var(--surface2); border: 1px solid var(--border);
-                           color: var(--text); padding: 6px 14px; border-radius: 6px;
-                           font-size: 12px; cursor: pointer; }
-    .refresh-bar button:hover { background: var(--border); }
+    .empty { font-size: 13px; color: rgba(55,53,47,0.4); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgb(55,53,47); color: #fff; padding: 8px 16px;
+      border-radius: 6px; font-size: 13px; z-index: 999; pointer-events: none;
+      animation: fadeup 0.15s ease;
+    }
+    @keyframes fadeup { from { opacity:0; transform: translateX(-50%) translateY(6px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
   </style>
 </head>
 <body>
 <div class="shell">
   <nav>
-    <div class="nav-logo">Morning Brief</div>
+    <div class="nav-title">Morning Brief</div>
     <div class="nav-date" id="nav-date">—</div>
-    <div class="nav-section">Today</div>
-    <a class="nav-item active" onclick="show('overview')">Overview</a>
-    <a class="nav-item" onclick="show('todos')">Todo List</a>
-    <a class="nav-item" onclick="show('meetings')">Meetings</a>
-    <div class="nav-section">Context</div>
-    <a class="nav-item" onclick="show('metrics')">Metrics</a>
-    <a class="nav-item" onclick="show('escalations')">Escalations</a>
+    <div class="nav-group">Today</div>
+    <a class="nav-item active" onclick="show('overview', this)">Overview</a>
+    <a class="nav-item" onclick="show('todos', this)">To-do</a>
+    <a class="nav-item" onclick="show('meetings', this)">Meetings</a>
+    <div class="nav-group">Context</div>
+    <a class="nav-item" onclick="show('metrics', this)">Metrics</a>
+    <a class="nav-item" onclick="show('escalations', this)">Escalations</a>
   </nav>
 
   <main>
-    <!-- ── OVERVIEW ── -->
     <div class="section active" id="section-overview">
-      <div class="refresh-bar">
-        <span id="last-updated">Last updated: —</span>
-        <button onclick="location.reload()">Refresh</button>
-      </div>
-
-      <div class="headline-card">
-        <h1 id="headline">Loading...</h1>
-        <div class="sub" id="headline-date">—</div>
-      </div>
-
-      <div class="metrics-row" id="metrics-row"></div>
-
-      <div class="section-title">
-        <span>⚡</span> Quick wins
-        <span class="badge green" id="badge-quick">0</span>
-      </div>
-      <div class="todo-list" id="list-quick"></div>
-
-      <div class="section-title">
-        <span>🔴</span> Must close today
-        <span class="badge red" id="badge-close">0</span>
-      </div>
-      <div class="todo-list" id="list-close"></div>
-
+      <div class="page-title" id="page-title">—</div>
+      <div class="page-subtitle" id="page-subtitle">—</div>
+      <div class="headline" id="headline"></div>
+      <h2>Quick wins</h2>
+      <div id="list-quick"><div class="empty">None</div></div>
+      <h2>Must close today</h2>
+      <div id="list-close"><div class="empty">None</div></div>
       <div id="flags-section" style="display:none">
-        <div class="section-title">⚠️ Flags</div>
+        <h2>Flags</h2>
         <div id="list-flags"></div>
       </div>
     </div>
 
-    <!-- ── TODOS ── -->
     <div class="section" id="section-todos">
-      <div class="section-title">🟡 Must make progress
-        <span class="badge yellow" id="badge-progress">0</span>
-      </div>
-      <div class="todo-list" id="list-progress"></div>
-
-      <div class="section-title">💬 Must communicate with
-        <span class="badge blue" id="badge-comm">0</span>
-      </div>
-      <div class="todo-list" id="list-comm"></div>
-
-      <div class="section-title">📊 Must report status
-        <span class="badge purple" id="badge-report">0</span>
-      </div>
-      <div class="todo-list" id="list-report"></div>
+      <div class="page-title">To-do</div>
+      <div class="page-subtitle" id="todos-date">—</div>
+      <h2>Must make progress</h2>
+      <div id="list-progress"><div class="empty">None</div></div>
+      <h2>Must communicate with</h2>
+      <div id="list-comm"><div class="empty">None</div></div>
+      <h2>Must report status</h2>
+      <div id="list-report"><div class="empty">None</div></div>
     </div>
 
-    <!-- ── MEETINGS ── -->
     <div class="section" id="section-meetings">
-      <div class="section-title">📅 Today's meetings
-        <span class="badge blue" id="badge-meetings">0</span>
-      </div>
+      <div class="page-title">Meetings</div>
+      <div class="page-subtitle" id="meetings-date">—</div>
       <div id="list-meetings"></div>
     </div>
 
-    <!-- ── METRICS ── -->
     <div class="section" id="section-metrics">
-      <div class="section-title">📈 Metrics snapshot</div>
-      <div class="metrics-row" id="metrics-detail"></div>
+      <div class="page-title">Metrics</div>
+      <div class="page-subtitle" id="metrics-date">—</div>
+      <div class="metrics-grid" id="metrics-grid"></div>
     </div>
 
-    <!-- ── ESCALATIONS ── -->
     <div class="section" id="section-escalations">
-      <div class="section-title">🚨 Open escalations</div>
+      <div class="page-title">Escalations</div>
+      <div class="page-subtitle" id="escalations-date">—</div>
       <div id="list-escalations"></div>
     </div>
   </main>
@@ -200,12 +193,12 @@
 /* BRIEF_DATA_START */
 const BRIEF = {
   "date": "2026-03-25",
-  "headline": "Clear calendar and no inbound fires \u2014 use today to drive the 'no ground truth' evals design doc forward before the next bi-weekly TR.",
+  "headline": "Clear calendar and quiet comms \u2014 ideal day to make real progress on the generated evaluations (no ground truth) design doc before the next bi-weekly TR.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Fix Salesforce and Snowflake auth credentials so dashboards populate tomorrow",
-        "why": "Both integrations are broken; you're flying blind on escalations and product metrics ahead of the next Agents bi-weekly TR",
+        "task": "Fix Salesforce and Snowflake integrations so tomorrow's brief has real data",
+        "why": "Both connectors are broken; you're flying blind on escalations and product metrics",
         "source": "salesforce",
         "link": ""
       }
@@ -213,38 +206,44 @@ const BRIEF = {
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Draft or substantially advance the design doc for AE-1079 (Generated evaluations \u2014 clarify no ground truth)",
-        "why": "This is your only active Jira ticket with no due date set, and evals is a key 26.4+ deliverable called out in the Big Rock TR; getting a reviewable draft out this week keeps the stream on track",
+        "task": "Draft or advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+        "why": "Only active ticket on your board; evals is a key 26.4 deliverable called out in the Big Rock TR. Next bi-weekly TR likely April 1 \u2014 get a reviewable draft out before then.",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
       },
       {
-        "task": "Review the Big Rock TR page (3/18) and update any evals-related sections with your latest thinking",
-        "why": "The bi-weekly cadence means the next TR is ~April 1; having your content current avoids last-minute scramble",
+        "task": "Review the Big Rock TR page for evals, Flow, and Autopilot updates to align your design doc with current direction",
+        "why": "Autopilot is flagged Yellow/Risk and evals adoption is a tracked metric \u2014 your doc should address both",
         "source": "jira",
         "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Jordan (Templates + Patterns lead)",
-        "about": "Align on how no-ground-truth evals intersect with validation patterns (DeepRAG, BatchTransform) referenced in the TR",
+        "person_or_team": "Jordan (Templates + Patterns)",
+        "about": "Sync on how 'no ground truth' evals interact with DeepRAG and validation patterns he's scoping",
         "channel": "slack",
         "urgency": "this_week"
       },
       {
         "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
-        "about": "Get technical input on generated-evaluation approaches without ground truth for the design doc",
+        "about": "Get technical input or review commitment on the generated evals approach for AE-1079",
+        "channel": "slack",
+        "urgency": "this_week"
+      },
+      {
+        "person_or_team": "Zach (Skills doc WIP)",
+        "about": "Coordinate on any overlap between skills documentation and eval framework definitions",
         "channel": "slack",
         "urgency": "this_week"
       }
     ],
     "must_report_status": [
       {
-        "topic": "Evals design doc progress (AE-1079)",
-        "to": "Adrian / Agents leadership",
-        "via": "Confluence or async Slack update",
-        "note": "Share draft link and open questions before next bi-weekly TR (~April 1)"
+        "topic": "AE-1079 generated evaluations design doc progress",
+        "to": "Agents leadership (likely Adrian / Marius)",
+        "via": "confluence or slack",
+        "note": "Have a shareable draft or outline ready before the next bi-weekly TR (~April 1)"
       }
     ]
   },
@@ -253,12 +252,12 @@ const BRIEF = {
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake auth broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector broken"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake auth broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector broken"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -266,11 +265,12 @@ const BRIEF = {
     }
   },
   "flags": [
-    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix or escalate to IT today.",
-    "Snowflake credentials are empty \u2014 product telemetry and MBR dashboard data inaccessible. March data update (noted in TR appendix) will be blocked.",
-    "AE-1079 has no due date set; consider assigning one this week to create accountability before the next TR."
+    "Salesforce integration is down (missing simple_salesforce module) \u2014 no visibility into customer escalations.",
+    "Snowflake integration is down (missing connector) \u2014 no product telemetry or funnel metrics available.",
+    "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for impact on your evals workstream.",
+    "March telemetry data noted as needing update on the TR page \u2014 if you own any of that, get it refreshed before month-end."
   ],
-  "slack_summary": "Clear calendar today \u2014 best use of time is driving the no-ground-truth evals design doc (AE-1079) forward. Top two urgencies: (1) make real progress on that design doc before the next Agents bi-weekly TR, and (2) fix broken Salesforce and Snowflake auth so you regain visibility on escalations and product metrics. Zero meetings today."
+  "slack_summary": "Clear calendar and no inbound fires \u2014 best day to push hard on AE-1079 (generated evaluations, no ground truth design doc), the only active ticket on your board and a key 26.4 deliverable. Second priority: fix the broken Salesforce and Snowflake integrations so you regain visibility on escalations and product metrics. Zero meetings today."
 };
 /* BRIEF_DATA_END */
 
@@ -278,139 +278,176 @@ const BRIEF = {
 const RAW_DATA = {
   "meetings": [],
   "metrics": {
-    "error": "251006: Password is empty"
+    "error": "snowflake-connector-python not installed. Run: pip install snowflake-connector-python"
   }
 };
 /* RAW_DATA_END */
 
-function show(id) {
+let _uid = 0;
+let _openMenu = null;
+
+function show(id, el) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('section-' + id).classList.add('active');
-  event.target.classList.add('active');
+  if (el) el.classList.add('active');
+  closeMenu();
 }
 
-function todoItem(t, type) {
-  const link = t.link
-    ? `<span class="chip"><a href="${t.link}" target="_blank">Open ↗</a></span>`
-    : '';
-  const source = t.source ? `<span class="chip">${t.source}</span>` : '';
-  const deadline = t.deadline_note ? `<span class="chip" style="color:var(--red)">${t.deadline_note}</span>` : '';
-  return `
-    <div class="todo-item">
-      <div class="todo-task">${t.task || t.topic || ''}</div>
-      <div class="todo-why">${t.why || t.about || t.note || ''}</div>
-      <div class="todo-meta">${source}${deadline}${link}</div>
-    </div>`;
+// ── Menu ──────────────────────────────────────────────────────────────────────
+
+function openMenu(uid, event) {
+  event.stopPropagation();
+  if (_openMenu === uid) { closeMenu(); return; }
+  closeMenu();
+  document.getElementById('dd-' + uid).classList.add('open');
+  _openMenu = uid;
 }
 
-function commItem(t) {
-  const urgency = t.urgency === 'today'
-    ? '<span class="chip" style="color:var(--red)">Today</span>'
-    : '<span class="chip">This week</span>';
-  return `
-    <div class="todo-item">
-      <div class="todo-task">${t.person_or_team}</div>
-      <div class="todo-why">${t.about || ''}</div>
-      <div class="todo-meta"><span class="chip">${t.channel || ''}</span>${urgency}</div>
-    </div>`;
+function closeMenu() {
+  if (_openMenu !== null) {
+    const el = document.getElementById('dd-' + _openMenu);
+    if (el) el.classList.remove('open');
+    _openMenu = null;
+  }
 }
 
-function metricCard(label, val, sub, trend) {
-  const trendClass = trend === 'up' ? 'trend-up' : trend === 'down' ? 'trend-down' : 'trend-flat';
-  const trendIcon = trend === 'up' ? '↑' : trend === 'down' ? '↓' : '→';
+document.addEventListener('click', closeMenu);
+
+function markDone(uid) {
+  document.getElementById('item-' + uid).classList.toggle('done');
+  closeMenu();
+}
+
+function moveItem(uid, dir) {
+  const el = document.getElementById('item-' + uid);
+  const sibling = dir === 'up' ? el.previousElementSibling : el.nextElementSibling;
+  if (!sibling) { closeMenu(); return; }
+  if (dir === 'up') el.parentNode.insertBefore(el, sibling);
+  else el.parentNode.insertBefore(sibling, el);
+  closeMenu();
+}
+
+function deleteItem(uid) {
+  document.getElementById('item-' + uid).remove();
+  closeMenu();
+}
+
+function shareSlack(uid) {
+  const el = document.getElementById('item-' + uid);
+  const task = el.querySelector('.todo-task')?.textContent?.trim() || '';
+  const why = el.querySelector('.todo-why')?.textContent?.trim() || '';
+  const link = el.querySelector('.todo-link')?.href || '';
+  const parts = [task, why, link].filter(Boolean);
+  navigator.clipboard.writeText(parts.join('\n')).then(() => toast('Copied — paste in Slack'));
+  closeMenu();
+}
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2200);
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+
+function todoItem(t) {
+  const uid = _uid++;
+  const text = t.task || t.topic || t.person_or_team || '';
+  const sub  = t.why  || t.about || t.note || '';
+  const link = t.link ? `<a class="todo-link" href="${t.link}" target="_blank">${t.link}</a>` : '';
   return `
-    <div class="metric-card">
-      <div class="metric-label">${label}</div>
-      <div class="metric-value ${trendClass}">${val}</div>
-      <div class="metric-sub">${trendIcon} ${sub || ''}</div>
-    </div>`;
+  <div class="todo-item" id="item-${uid}">
+    <div class="item-content">
+      <div class="todo-task">${text}</div>
+      ${sub  ? `<div class="todo-why">${sub}</div>`  : ''}
+      ${link}
+    </div>
+    <div class="item-menu-wrap">
+      <button class="item-menu-btn" onclick="openMenu(${uid}, event)">···</button>
+      <div class="dropdown" id="dd-${uid}">
+        <button class="dd-item" onclick="markDone(${uid})">Mark as done</button>
+        <button class="dd-item" onclick="moveItem(${uid},'up')">Up importance</button>
+        <button class="dd-item" onclick="moveItem(${uid},'down')">Down importance</button>
+        <button class="dd-item danger" onclick="deleteItem(${uid})">Delete</button>
+        <button class="dd-item" onclick="shareSlack(${uid})">Share on Slack</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function metricBlock(label, value, note) {
+  return `<div class="metric">
+    <div class="metric-label">${label}</div>
+    <div class="metric-value">${value || '—'}</div>
+    ${note ? `<div class="metric-note">${note}</div>` : ''}
+  </div>`;
 }
 
 function render() {
-  if (!BRIEF || !BRIEF.date) {
-    document.getElementById('headline').textContent = 'Brief not yet generated. Run build.py to generate.';
-    return;
-  }
-
-  // Header
-  document.getElementById('nav-date').textContent = BRIEF.date;
+  if (!BRIEF || !BRIEF.date) return;
+  const d = BRIEF.date;
+  ['nav-date','page-subtitle','todos-date','meetings-date','metrics-date','escalations-date']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d; });
+  document.getElementById('page-title').textContent = 'Morning Brief';
   document.getElementById('headline').textContent = BRIEF.headline || '';
-  document.getElementById('headline-date').textContent = BRIEF.date;
-  document.getElementById('last-updated').textContent = `Last updated: ${BRIEF.date}`;
 
   const todos = BRIEF.todos || {};
 
-  // Quick wins
   const quick = todos.quick_wins || [];
-  document.getElementById('badge-quick').textContent = quick.length;
-  document.getElementById('list-quick').innerHTML = quick.map(t => todoItem(t)).join('');
+  document.getElementById('list-quick').innerHTML =
+    quick.length ? quick.map(todoItem).join('') : '<div class="empty">None</div>';
 
-  // Must close
   const close = todos.must_close_today || [];
-  document.getElementById('badge-close').textContent = close.length;
-  document.getElementById('list-close').innerHTML = close.map(t => todoItem(t)).join('');
+  document.getElementById('list-close').innerHTML =
+    close.length ? close.map(todoItem).join('') : '<div class="empty">None</div>';
 
-  // Must progress
   const progress = todos.must_make_progress || [];
-  document.getElementById('badge-progress').textContent = progress.length;
-  document.getElementById('list-progress').innerHTML = progress.map(t => todoItem(t)).join('');
+  document.getElementById('list-progress').innerHTML =
+    progress.length ? progress.map(todoItem).join('') : '<div class="empty">None</div>';
 
-  // Communicate
   const comm = todos.must_communicate_with || [];
-  document.getElementById('badge-comm').textContent = comm.length;
-  document.getElementById('list-comm').innerHTML = comm.map(t => commItem(t)).join('');
+  document.getElementById('list-comm').innerHTML =
+    comm.length ? comm.map(todoItem).join('') : '<div class="empty">None</div>';
 
-  // Report status
   const report = todos.must_report_status || [];
-  document.getElementById('badge-report').textContent = report.length;
-  document.getElementById('list-report').innerHTML = report.map(t => todoItem(t, 'report')).join('');
+  document.getElementById('list-report').innerHTML =
+    report.length ? report.map(todoItem).join('') : '<div class="empty">None</div>';
 
-  // Metrics row (overview + detail)
   const m = BRIEF.metrics_snapshot || {};
-  const metricsHtml = [
-    metricCard('Agents in prod', m.agents_in_production?.value || '—',
-               m.agents_in_production?.vs_goal || '', m.agents_in_production?.trend),
-    metricCard('Evals adoption', m.evals_adoption?.value || '—',
-               m.evals_adoption?.vs_goal || '', m.evals_adoption?.trend),
-    metricCard('Open escalations',
-               (m.escalations_open?.value ?? '—').toString(),
-               `${m.escalations_open?.critical_count || 0} critical`, 'flat'),
+  document.getElementById('metrics-grid').innerHTML = [
+    metricBlock('Agents in production', m.agents_in_production?.value, m.agents_in_production?.vs_goal),
+    metricBlock('Evals adoption',       m.evals_adoption?.value,       m.evals_adoption?.vs_goal),
+    metricBlock('Open escalations',     m.escalations_open?.value,     `${m.escalations_open?.critical_count || 0} critical`),
   ].join('');
-  document.getElementById('metrics-row').innerHTML = metricsHtml;
-  document.getElementById('metrics-detail').innerHTML = metricsHtml;
 
-  // Flags
   const flags = BRIEF.flags || [];
   if (flags.length) {
     document.getElementById('flags-section').style.display = 'block';
-    document.getElementById('list-flags').innerHTML =
-      flags.map(f => `<div class="flag-item">${f}</div>`).join('');
+    document.getElementById('list-flags').innerHTML = flags.map(f => `<div class="flag-item">${f}</div>`).join('');
   }
 
-  // Meetings
   const meetings = BRIEF.meetings_today || [];
-  document.getElementById('badge-meetings').textContent = meetings.length;
-  document.getElementById('list-meetings').innerHTML = meetings.map(m => `
-    <div class="meeting-card">
-      <div class="meeting-title">${m.title}</div>
-      <div class="meeting-meta">${m.time || ''} · ${m.duration_min || 0} min · ${m.attendees_count || 0} attendees</div>
-      ${m.prep_note ? `<div class="meeting-prep">Prep: ${m.prep_note}</div>` : ''}
-    </div>`).join('');
+  document.getElementById('list-meetings').innerHTML = meetings.length
+    ? meetings.map(m => `<div class="meeting-item">
+        <div class="meeting-title">${m.title}</div>
+        <div class="meeting-meta">${[m.time, m.duration_min ? m.duration_min+' min' : '', m.attendees_count ? m.attendees_count+' people' : ''].filter(Boolean).join(' · ')}</div>
+        ${m.prep_note ? `<div class="meeting-prep">${m.prep_note}</div>` : ''}
+      </div>`).join('')
+    : '<div class="empty">No meetings today</div>';
 
-  // Escalations (from salesforce via raw data if available)
   const escs = (RAW_DATA.escalations || {}).open_escalations || [];
   document.getElementById('list-escalations').innerHTML = escs.length
-    ? escs.map(e => `
-      <div class="todo-item">
-        <div class="todo-task">${e.subject}</div>
-        <div class="todo-why">${e.account} · ${e.priority} · ${e.status}</div>
-        <div class="todo-meta">
-          <span class="chip">${e.case_number}</span>
-          ${e.url ? `<span class="chip"><a href="${e.url}" target="_blank">Open ↗</a></span>` : ''}
+    ? escs.map(e => `<div class="todo-item">
+        <div class="item-content">
+          <div class="todo-task">${e.subject}</div>
+          <div class="todo-why">${[e.account, e.priority, e.status].filter(Boolean).join(' · ')}</div>
+          ${e.url ? `<a class="todo-link" href="${e.url}" target="_blank">${e.case_number}</a>` : ''}
         </div>
       </div>`).join('')
-    : '<div style="color:var(--muted);font-size:13px">No open escalations — good sign.</div>';
+    : '<div class="empty">No open escalations</div>';
 }
 
 render();

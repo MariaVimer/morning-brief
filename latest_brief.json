@@ -1,11 +1,11 @@
 {
   "date": "2026-03-25",
-  "headline": "Clear calendar and no inbound fires \u2014 use today to drive the 'no ground truth' evals design doc forward before the next bi-weekly TR.",
+  "headline": "Clear calendar and quiet comms \u2014 ideal day to make real progress on the generated evaluations (no ground truth) design doc before the next bi-weekly TR.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Fix Salesforce and Snowflake auth credentials so dashboards populate tomorrow",
-        "why": "Both integrations are broken; you're flying blind on escalations and product metrics ahead of the next Agents bi-weekly TR",
+        "task": "Fix Salesforce and Snowflake integrations so tomorrow's brief has real data",
+        "why": "Both connectors are broken; you're flying blind on escalations and product metrics",
         "source": "salesforce",
         "link": ""
       }
@@ -13,38 +13,44 @@
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Draft or substantially advance the design doc for AE-1079 (Generated evaluations \u2014 clarify no ground truth)",
-        "why": "This is your only active Jira ticket with no due date set, and evals is a key 26.4+ deliverable called out in the Big Rock TR; getting a reviewable draft out this week keeps the stream on track",
+        "task": "Draft or advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
+        "why": "Only active ticket on your board; evals is a key 26.4 deliverable called out in the Big Rock TR. Next bi-weekly TR likely April 1 \u2014 get a reviewable draft out before then.",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
       },
       {
-        "task": "Review the Big Rock TR page (3/18) and update any evals-related sections with your latest thinking",
-        "why": "The bi-weekly cadence means the next TR is ~April 1; having your content current avoids last-minute scramble",
+        "task": "Review the Big Rock TR page for evals, Flow, and Autopilot updates to align your design doc with current direction",
+        "why": "Autopilot is flagged Yellow/Risk and evals adoption is a tracked metric \u2014 your doc should address both",
         "source": "jira",
         "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Jordan (Templates + Patterns lead)",
-        "about": "Align on how no-ground-truth evals intersect with validation patterns (DeepRAG, BatchTransform) referenced in the TR",
+        "person_or_team": "Jordan (Templates + Patterns)",
+        "about": "Sync on how 'no ground truth' evals interact with DeepRAG and validation patterns he's scoping",
         "channel": "slack",
         "urgency": "this_week"
       },
       {
         "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
-        "about": "Get technical input on generated-evaluation approaches without ground truth for the design doc",
+        "about": "Get technical input or review commitment on the generated evals approach for AE-1079",
+        "channel": "slack",
+        "urgency": "this_week"
+      },
+      {
+        "person_or_team": "Zach (Skills doc WIP)",
+        "about": "Coordinate on any overlap between skills documentation and eval framework definitions",
         "channel": "slack",
         "urgency": "this_week"
       }
     ],
     "must_report_status": [
       {
-        "topic": "Evals design doc progress (AE-1079)",
-        "to": "Adrian / Agents leadership",
-        "via": "Confluence or async Slack update",
-        "note": "Share draft link and open questions before next bi-weekly TR (~April 1)"
+        "topic": "AE-1079 generated evaluations design doc progress",
+        "to": "Agents leadership (likely Adrian / Marius)",
+        "via": "confluence or slack",
+        "note": "Have a shareable draft or outline ready before the next bi-weekly TR (~April 1)"
       }
     ]
   },
@@ -53,12 +59,12 @@
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake auth broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector broken"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake auth broken"
+      "vs_goal": "unavailable \u2014 Snowflake connector broken"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -66,9 +72,10 @@
     }
   },
   "flags": [
-    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix or escalate to IT today.",
-    "Snowflake credentials are empty \u2014 product telemetry and MBR dashboard data inaccessible. March data update (noted in TR appendix) will be blocked.",
-    "AE-1079 has no due date set; consider assigning one this week to create accountability before the next TR."
+    "Salesforce integration is down (missing simple_salesforce module) \u2014 no visibility into customer escalations.",
+    "Snowflake integration is down (missing connector) \u2014 no product telemetry or funnel metrics available.",
+    "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for impact on your evals workstream.",
+    "March telemetry data noted as needing update on the TR page \u2014 if you own any of that, get it refreshed before month-end."
   ],
-  "slack_summary": "Clear calendar today \u2014 best use of time is driving the no-ground-truth evals design doc (AE-1079) forward. Top two urgencies: (1) make real progress on that design doc before the next Agents bi-weekly TR, and (2) fix broken Salesforce and Snowflake auth so you regain visibility on escalations and product metrics. Zero meetings today."
+  "slack_summary": "Clear calendar and no inbound fires \u2014 best day to push hard on AE-1079 (generated evaluations, no ground truth design doc), the only active ticket on your board and a key 26.4 deliverable. Second priority: fix the broken Salesforce and Snowflake integrations so you regain visibility on escalations and product metrics. Zero meetings today."
 }
