@@ -371,13 +371,13 @@
 <script>
 /* BRIEF_DATA_START */
 const BRIEF = {
-  "date": "2026-03-31",
-  "headline": "End of Q1: quiet calendar and comms give you a rare full day to drive the 'no ground truth' evals design doc forward before the quarter closes.",
+  "date": "2026-04-01",
+  "headline": "Clear calendar and empty comms give you a rare deep-work day \u2014 use it to push the 'no ground truth' evals design doc forward.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Fix Salesforce and Snowflake credentials so dashboards are live for Q1 close reporting",
-        "why": "Both integrations are broken (auth failures); you'll need metrics for any Q1 wrap-up asks from leadership",
+        "task": "Fix Salesforce and Snowflake credential issues so dashboards are available for next bi-weekly TR",
+        "why": "Both integrations are failing auth; you're flying blind on escalations and product metrics",
         "source": "salesforce",
         "link": ""
       }
@@ -385,32 +385,38 @@ const BRIEF = {
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Draft or significantly advance AE-1079: 'Generated evaluations - clarify no ground truth' design doc",
-        "why": "Only active Jira ticket; evals is a key 26.4 deliverable called out in the Big Rock TR and ties directly to the Agents OKR. Closing Q1 with a solid draft sets up April execution.",
+        "task": "Draft or significantly advance the design doc for AE-1079: Generated evaluations \u2014 clarify no ground truth",
+        "why": "Only active Jira ticket; evals is a key 26.4 deliverable and feeds the Agents Big Rock OKR. No due date means it could slip \u2014 own the timeline today.",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
+      },
+      {
+        "task": "Review the Agents Big Rock bi-weekly TR page and update any evals-related sections with current status",
+        "why": "Next TR is approaching; the page lists evals as a key deliverable and your section should be current",
+        "source": "jira",
+        "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Jordan / Evals pod",
-        "about": "Align on scope and open questions for the no-ground-truth evals design doc before drafting further",
+        "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
+        "about": "Align on technical approach for generated evaluations without ground truth \u2014 get their input before finalizing design doc",
         "channel": "slack",
-        "urgency": "today"
+        "urgency": "this_week"
       },
       {
-        "person_or_team": "IT / DevOps",
-        "about": "Salesforce and Snowflake credential failures \u2014 request credential reset or token refresh",
+        "person_or_team": "Jordan",
+        "about": "Sync on evals tie-in with DeepRAG/BatchTransform validation patterns and any shared evaluation framework needs",
         "channel": "slack",
-        "urgency": "today"
+        "urgency": "this_week"
       }
     ],
     "must_report_status": [
       {
-        "topic": "Q1 evals progress and no-ground-truth design doc status",
+        "topic": "Evals \u2014 no ground truth design doc progress",
         "to": "Adrian / Agents leadership",
-        "via": "slack",
-        "note": "Quarter ends today; proactively share where the design doc stands and planned completion date in Q2"
+        "via": "confluence",
+        "note": "Update the Big Rock TR page with design doc status and expected completion date before the next bi-weekly review"
       }
     ]
   },
@@ -419,12 +425,12 @@ const BRIEF = {
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "Snowflake auth broken \u2014 fix credentials to pull March data referenced in Big Rock appendix"
+      "vs_goal": "Snowflake auth broken \u2014 fix credentials to restore dashboard"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable"
+      "vs_goal": "Key 26.4 deliverable; no telemetry available until Snowflake is restored"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -432,11 +438,10 @@ const BRIEF = {
     }
   },
   "flags": [
-    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into open escalations or customer cases on Q1 close day.",
-    "Snowflake credentials empty \u2014 cannot pull March product telemetry needed for the Big Rock metrics appendix.",
-    "AE-1079 has no due date set; risk of it drifting without a committed deadline \u2014 consider setting one today.",
-    "Autopilot is flagged Risk Yellow in the Big Rock TR \u2014 monitor for any spill-over impact on your evals workstream.",
-    "No emails, Slack messages, or meetings in 16h \u2014 unusually quiet; confirm nothing is stuck in a dead channel."
+    "Salesforce auth is broken (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix urgently or escalate to IT.",
+    "Snowflake credentials are empty \u2014 product telemetry and MBR dashboard are inaccessible. March data update is pending per TR page.",
+    "AE-1079 has no due date set \u2014 risk of indefinite drift. Set a target date today.",
+    "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for spillover impact on evals or agent runtime work."
   ],
   "deliverables": {
     "tasks_completed": [],
@@ -448,10 +453,10 @@ const BRIEF = {
   },
   "praise": [],
   "outcomes": {
-    "business_impact": "No closed deliverables or resolved escalations yet today; primary opportunity is restoring Salesforce/Snowflake visibility and locking down the evals design doc to close Q1 with a clear artifact.",
-    "product_adoption": "Evals adoption metrics unavailable due to broken Snowflake connection; advancing the no-ground-truth design doc is the highest-leverage adoption-driving work for today."
+    "business_impact": "No escalations visible and no meetings today \u2014 primary business value will come from unblocking the no-ground-truth evals design, which is a prerequisite for the 26.4 evals deliverable that supports the Agents Big Rock.",
+    "product_adoption": "Evals adoption metrics are currently unavailable due to broken Snowflake credentials; restoring access and advancing the no-ground-truth design doc are the two highest-leverage adoption moves today."
   },
-  "slack_summary": "End of Q1 and your calendar is completely clear \u2014 use the day to make real progress on AE-1079 (no-ground-truth evals design doc), the only open Jira ticket. Top two urgent items: (1) fix broken Salesforce and Snowflake credentials so you have metrics visibility for Q1 close, and (2) align with Jordan/evals pod on the design doc scope. Zero meetings today."
+  "slack_summary": "Clear calendar today \u2014 your single focus should be advancing the AE-1079 design doc (generated evaluations without ground truth), the only active Jira ticket and a key 26.4 Agents deliverable. Second priority: fix Salesforce and Snowflake credentials so you regain visibility into escalations and product telemetry before the next Big Rock TR. Zero meetings today \u2014 maximize deep work."
 };
 /* BRIEF_DATA_END */
 
@@ -466,6 +471,94 @@ const RAW_DATA = {
 
 /* BRIEFS_HISTORY_START */
 const BRIEFS_HISTORY = [
+  {
+    "date": "2026-04-01",
+    "headline": "Clear calendar and empty comms give you a rare deep-work day \u2014 use it to push the 'no ground truth' evals design doc forward.",
+    "todos": {
+      "quick_wins": [
+        {
+          "task": "Fix Salesforce and Snowflake credential issues so dashboards are available for next bi-weekly TR",
+          "why": "Both integrations are failing auth; you're flying blind on escalations and product metrics",
+          "source": "salesforce",
+          "link": ""
+        }
+      ],
+      "must_close_today": [],
+      "must_make_progress": [
+        {
+          "task": "Draft or significantly advance the design doc for AE-1079: Generated evaluations \u2014 clarify no ground truth",
+          "why": "Only active Jira ticket; evals is a key 26.4 deliverable and feeds the Agents Big Rock OKR. No due date means it could slip \u2014 own the timeline today.",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-1079"
+        },
+        {
+          "task": "Review the Agents Big Rock bi-weekly TR page and update any evals-related sections with current status",
+          "why": "Next TR is approaching; the page lists evals as a key deliverable and your section should be current",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
+        }
+      ],
+      "must_communicate_with": [
+        {
+          "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
+          "about": "Align on technical approach for generated evaluations without ground truth \u2014 get their input before finalizing design doc",
+          "channel": "slack",
+          "urgency": "this_week"
+        },
+        {
+          "person_or_team": "Jordan",
+          "about": "Sync on evals tie-in with DeepRAG/BatchTransform validation patterns and any shared evaluation framework needs",
+          "channel": "slack",
+          "urgency": "this_week"
+        }
+      ],
+      "must_report_status": [
+        {
+          "topic": "Evals \u2014 no ground truth design doc progress",
+          "to": "Adrian / Agents leadership",
+          "via": "confluence",
+          "note": "Update the Big Rock TR page with design doc status and expected completion date before the next bi-weekly review"
+        }
+      ]
+    },
+    "meetings_today": [],
+    "metrics_snapshot": {
+      "agents_in_production": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "Snowflake auth broken \u2014 fix credentials to restore dashboard"
+      },
+      "evals_adoption": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "Key 26.4 deliverable; no telemetry available until Snowflake is restored"
+      },
+      "escalations_open": {
+        "value": "unavailable",
+        "critical_count": 0
+      }
+    },
+    "flags": [
+      "Salesforce auth is broken (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix urgently or escalate to IT.",
+      "Snowflake credentials are empty \u2014 product telemetry and MBR dashboard are inaccessible. March data update is pending per TR page.",
+      "AE-1079 has no due date set \u2014 risk of indefinite drift. Set a target date today.",
+      "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for spillover impact on evals or agent runtime work."
+    ],
+    "deliverables": {
+      "tasks_completed": [],
+      "documents": [],
+      "features_or_initiatives": [],
+      "customer_enablement": [],
+      "slack_supported": [],
+      "other": []
+    },
+    "praise": [],
+    "outcomes": {
+      "business_impact": "No escalations visible and no meetings today \u2014 primary business value will come from unblocking the no-ground-truth evals design, which is a prerequisite for the 26.4 evals deliverable that supports the Agents Big Rock.",
+      "product_adoption": "Evals adoption metrics are currently unavailable due to broken Snowflake credentials; restoring access and advancing the no-ground-truth design doc are the two highest-leverage adoption moves today."
+    },
+    "slack_summary": "Clear calendar today \u2014 your single focus should be advancing the AE-1079 design doc (generated evaluations without ground truth), the only active Jira ticket and a key 26.4 Agents deliverable. Second priority: fix Salesforce and Snowflake credentials so you regain visibility into escalations and product telemetry before the next Big Rock TR. Zero meetings today \u2014 maximize deep work."
+  },
   {
     "date": "2026-03-31",
     "headline": "End of Q1: quiet calendar and comms give you a rare full day to drive the 'no ground truth' evals design doc forward before the quarter closes.",
