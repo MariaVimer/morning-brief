@@ -1,45 +1,52 @@
 {
   "date": "2026-04-02",
-  "headline": "Clear calendar and quiet comms \u2014 ideal day to drive the 'no ground truth' evaluations design doc forward before the next bi-weekly TR.",
+  "headline": "Clear calendar and no inbound fires \u2014 use today to drive the 'Generated Evaluations: No Ground Truth' design doc forward before the next bi-weekly TR.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Fix Salesforce and Snowflake auth so tomorrow's brief has live metrics",
-        "why": "Both integrations are broken; you're flying blind on escalations and adoption data",
+        "task": "Fix Salesforce auth credentials (check SALESFORCE_* env vars) so escalation visibility is restored",
+        "why": "You're flying blind on customer escalations until this is fixed",
         "source": "salesforce",
+        "link": ""
+      },
+      {
+        "task": "Fix Snowflake credentials (password empty) to restore metrics dashboards",
+        "why": "Metrics for the Agents MBR dashboard and OKR tracking are inaccessible",
+        "source": "jira",
         "link": ""
       }
     ],
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Draft or substantially advance the 'Generated evaluations - no ground truth' design doc (AE-1079)",
-        "why": "Only active ticket on your board; evals is a key 26.4 deliverable called out in the Big Rock TR, and no due date means it could drift \u2014 use today's empty calendar to get a first pass done",
+        "task": "Draft or substantially advance the design doc for AE-1079: Generated evaluations \u2014 clarify no ground truth",
+        "why": "This is your only active Jira ticket and directly ties to the Evals deliverable called out in the Big Rock OKRs (key 26.4+ deliverable). No due date means it can slip silently \u2014 don't let it.",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
-      },
-      {
-        "task": "Review latest Big Rock TR page for any action items or updates you owe before next bi-weekly",
-        "why": "Evals, Context Engineering, and Templates/Patterns are all in-flight; ensure your design doc aligns with latest direction from Adrian, Jordan, and Dragos",
-        "source": "jira",
-        "link": "https://uipath.atlassian.net/wiki/spaces/Agents/pages/90404585567"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Jordan",
-        "about": "Align on how 'no ground truth' evals intersect with DeepRAG/BatchTransform validation patterns and Context Engineering work",
+        "person_or_team": "Jordan / Scott (Evals & Context Engineering leads)",
+        "about": "Align on 'no ground truth' evaluation approach, get input or review on design doc draft for AE-1079",
         "channel": "slack",
         "urgency": "this_week"
       },
       {
-        "person_or_team": "Dragos / Tomasz (ML/Applied Science)",
-        "about": "Get input on evaluation methodology for generated evals without ground truth \u2014 likely need their modeling perspective",
+        "person_or_team": "IT / DevOps",
+        "about": "Salesforce and Snowflake credential failures \u2014 request password resets or token refresh",
         "channel": "slack",
-        "urgency": "this_week"
+        "urgency": "today"
       }
     ],
-    "must_report_status": []
+    "must_report_status": [
+      {
+        "topic": "Evals workstream progress (generated evaluations, no ground truth)",
+        "to": "Agents leadership (likely Adrian or Marius based on OKR structure)",
+        "via": "confluence",
+        "note": "Next bi-weekly TR will expect an update; have a shareable draft or status by then"
+      }
+    ]
   },
   "meetings_today": [],
   "metrics_snapshot": {
@@ -59,10 +66,10 @@
     }
   },
   "flags": [
-    "Salesforce auth is broken (INVALID_LOGIN) \u2014 open escalations are invisible. Fix urgently or escalate to IT.",
-    "Snowflake password is empty \u2014 all product telemetry and funnel metrics are unavailable.",
-    "AE-1079 has no due date set; risk of it slipping without a self-imposed target. Consider setting one today.",
-    "Autopilot is flagged Yellow/Risk in the Big Rock TR \u2014 monitor for spillover impact on evals work."
+    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations or high-priority cases. Fix urgently.",
+    "Snowflake metrics connection is down (empty password) \u2014 cannot track MBR dashboard, funnel health, or telemetry OKRs.",
+    "AE-1079 has no due date set \u2014 risk of silent drift on a key evals deliverable. Consider setting a target date today.",
+    "Autopilot is flagged Risk Yellow in the Big Rock OKRs \u2014 monitor for any escalation that may pull you in."
   ],
   "deliverables": {
     "tasks_completed": [],
@@ -74,8 +81,8 @@
   },
   "praise": [],
   "outcomes": {
-    "business_impact": "No measurable business impact yet today \u2014 priority is restoring visibility into escalations (Salesforce) and metrics (Snowflake) so decisions aren't made blind.",
-    "product_adoption": "Evals adoption data is unavailable; advancing the no-ground-truth design doc (AE-1079) is the highest-leverage adoption-driving work today, as it unblocks a key 26.4 deliverable."
+    "business_impact": "No measurable business impact yet today \u2014 priority is restoring observability (Salesforce, Snowflake) and advancing the evals design doc that underpins a key 26.4 deliverable.",
+    "product_adoption": "Evals adoption metrics are currently unavailable due to broken Snowflake credentials; advancing the no-ground-truth design doc (AE-1079) is the most impactful adoption-driving work today."
   },
-  "slack_summary": "Clear calendar today \u2014 best use of time is driving the 'no ground truth' evaluations design doc (AE-1079), your only active Jira ticket and a key 26.4 deliverable. Urgent housekeeping: both Salesforce and Snowflake integrations are broken, leaving you blind on escalations and adoption metrics \u2014 get those fixed or escalated. Zero meetings today."
+  "slack_summary": "Clear day with no meetings or inbound fires \u2014 best use of time is driving the 'Generated Evaluations: No Ground Truth' design doc (AE-1079) forward. Two urgent housekeeping items: Salesforce and Snowflake credentials are both broken, leaving you blind on escalations and metrics \u2014 get IT to fix today. Zero meetings on the calendar."
 }
