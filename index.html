@@ -372,18 +372,18 @@
 /* BRIEF_DATA_START */
 const BRIEF = {
   "date": "2026-05-07",
-  "headline": "Clear calendar and no inbound messages \u2014 use today to drive deep progress on the two open Evals UX tickets before the next bi-weekly TR cycle.",
+  "headline": "Clear calendar and no inbound messages \u2014 use today to drive deep progress on the two open Evals UX tickets before they drift.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Pick up AE-1079: draft the 'no ground truth' design doc outline for generated evaluations",
-        "why": "It's in To Do and is a scoping/writing task you can kick off quickly to unblock design review",
+        "task": "Triage AE-1079: draft outline for 'no ground truth' design doc",
+        "why": "Story is still in To Do; writing a quick outline (30 min) unblocks moving it to In Progress and signals momentum on generated evaluations",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
       },
       {
         "task": "Fix Salesforce and Snowflake credentials so tomorrow's brief has real data",
-        "why": "Both integrations are broken \u2014 you're flying blind on escalations and product metrics",
+        "why": "Both integrations are broken \u2014 you're flying blind on escalations and adoption metrics",
         "source": "salesforce",
         "link": ""
       }
@@ -391,38 +391,38 @@ const BRIEF = {
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "Advance AE-744: Justification + Actual vs Expected Evaluation Run results UX for all Evaluators",
-        "why": "Major priority, already In Progress \u2014 Evals UX is a key 26.4 deliverable tied to the Agents big rock; no meetings today means deep focus time",
+        "task": "AE-744: Advance Justification + Actual vs Expected UX for all evaluators",
+        "why": "Major priority, In Progress with no due date \u2014 risk of stalling; today's empty calendar is the best window for focused design work",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-744"
       },
       {
-        "task": "Write first draft of AE-1079 design doc clarifying no-ground-truth evaluation approach",
-        "why": "Feeds into generated evaluations work and needs to be socialized with the evals and ML/Applied Science teams",
+        "task": "AE-1079: Write the 'no ground truth' generated evaluations design doc",
+        "why": "Directly supports the Evals adoption OKR and the broader Agentic Initiative; clarifying this unblocks engineering scoping",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1079"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "Adrian / Evals engineering lead",
-        "about": "Sync on AE-744 UX progress \u2014 confirm alignment on justification display for low-code vs coded evaluators before next TR",
+        "person_or_team": "Jordan / Scott (Context Engineering & Evals stakeholders)",
+        "about": "Sync on AE-1079 no-ground-truth approach \u2014 validate assumptions before writing full design doc",
         "channel": "slack",
         "urgency": "this_week"
       },
       {
-        "person_or_team": "Jordan / Patterns & Context Engineering",
-        "about": "Align on how generated evaluations (AE-1079) interact with context engineering and memory work",
+        "person_or_team": "Engineering lead on AE-744",
+        "about": "Share latest UX direction for justification + actual vs expected results; get feasibility feedback",
         "channel": "slack",
         "urgency": "this_week"
       }
     ],
     "must_report_status": [
       {
-        "topic": "Evals UX and generated evaluations progress",
-        "to": "Agents big-rock leadership (bi-weekly TR audience)",
-        "via": "confluence",
-        "note": "Next TR is approaching \u2014 update Confluence with current status on AE-744 and AE-1079 so your section is ready"
+        "topic": "Evals UX and Generated Evaluations progress",
+        "to": "Agents leadership (Adrian / Marius)",
+        "via": "confluence or bi-weekly TR",
+        "note": "Next Big Rock TR may be coming soon \u2014 have a crisp status ready for both AE-744 and AE-1079"
       }
     ]
   },
@@ -445,9 +445,9 @@ const BRIEF = {
   },
   "flags": [
     "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix credentials ASAP.",
-    "Snowflake integration is down (empty password) \u2014 no product metrics available. You cannot track evals adoption or agent telemetry.",
-    "Both Jira tickets have no due dates set \u2014 consider adding target dates to create urgency and signal commitment to stakeholders.",
-    "No Slack or email activity in 16 hours \u2014 unusually quiet; verify integrations are working correctly."
+    "Snowflake credentials empty \u2014 adoption and funnel metrics completely dark. Cannot track OKR progress.",
+    "Both active Jira tickets have no due dates \u2014 risk of deprioritization; consider setting target dates today.",
+    "No Slack activity in 16h \u2014 unusually quiet; confirm you're in all relevant Evals and Agents channels."
   ],
   "deliverables": {
     "tasks_completed": [],
@@ -459,10 +459,10 @@ const BRIEF = {
   },
   "praise": [],
   "outcomes": {
-    "business_impact": "No measurable business impact yet today \u2014 priority is restoring observability (Salesforce/Snowflake) and advancing evals UX to keep 26.4 deliverables on track.",
-    "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake connection; advancing AE-744 and AE-1079 today directly supports the evals experience that drives adoption."
+    "business_impact": "No measurable business impact captured today yet \u2014 priority is to restore Salesforce/Snowflake visibility and advance the Evals UX work that directly supports agent quality and customer confidence.",
+    "product_adoption": "Evals adoption metrics unavailable due to broken Snowflake connection; advancing AE-744 and AE-1079 today is the highest-leverage adoption-driving work available."
   },
-  "slack_summary": "Your calendar is completely clear today \u2014 ideal for deep work on the two open Evals tickets. Top priorities: push AE-744 (Justification UX) forward and draft the no-ground-truth design doc for AE-1079. Also critical: fix broken Salesforce and Snowflake credentials so you regain visibility into escalations and product metrics. Zero meetings today."
+  "slack_summary": "Clear calendar today \u2014 best window to make real progress on both Evals tickets (AE-744 justification UX, AE-1079 no-ground-truth design doc). Top urgent items: (1) push AE-744 UX forward while you have uninterrupted time, and (2) fix broken Salesforce/Snowflake creds so you regain visibility into escalations and adoption metrics. Zero meetings today."
 };
 /* BRIEF_DATA_END */
 
@@ -479,18 +479,18 @@ const RAW_DATA = {
 const BRIEFS_HISTORY = [
   {
     "date": "2026-05-07",
-    "headline": "Clear calendar and no inbound messages \u2014 use today to drive deep progress on the two open Evals UX tickets before the next bi-weekly TR cycle.",
+    "headline": "Clear calendar and no inbound messages \u2014 use today to drive deep progress on the two open Evals UX tickets before they drift.",
     "todos": {
       "quick_wins": [
         {
-          "task": "Pick up AE-1079: draft the 'no ground truth' design doc outline for generated evaluations",
-          "why": "It's in To Do and is a scoping/writing task you can kick off quickly to unblock design review",
+          "task": "Triage AE-1079: draft outline for 'no ground truth' design doc",
+          "why": "Story is still in To Do; writing a quick outline (30 min) unblocks moving it to In Progress and signals momentum on generated evaluations",
           "source": "jira",
           "link": "https://uipath.atlassian.net/browse/AE-1079"
         },
         {
           "task": "Fix Salesforce and Snowflake credentials so tomorrow's brief has real data",
-          "why": "Both integrations are broken \u2014 you're flying blind on escalations and product metrics",
+          "why": "Both integrations are broken \u2014 you're flying blind on escalations and adoption metrics",
           "source": "salesforce",
           "link": ""
         }
@@ -498,38 +498,38 @@ const BRIEFS_HISTORY = [
       "must_close_today": [],
       "must_make_progress": [
         {
-          "task": "Advance AE-744: Justification + Actual vs Expected Evaluation Run results UX for all Evaluators",
-          "why": "Major priority, already In Progress \u2014 Evals UX is a key 26.4 deliverable tied to the Agents big rock; no meetings today means deep focus time",
+          "task": "AE-744: Advance Justification + Actual vs Expected UX for all evaluators",
+          "why": "Major priority, In Progress with no due date \u2014 risk of stalling; today's empty calendar is the best window for focused design work",
           "source": "jira",
           "link": "https://uipath.atlassian.net/browse/AE-744"
         },
         {
-          "task": "Write first draft of AE-1079 design doc clarifying no-ground-truth evaluation approach",
-          "why": "Feeds into generated evaluations work and needs to be socialized with the evals and ML/Applied Science teams",
+          "task": "AE-1079: Write the 'no ground truth' generated evaluations design doc",
+          "why": "Directly supports the Evals adoption OKR and the broader Agentic Initiative; clarifying this unblocks engineering scoping",
           "source": "jira",
           "link": "https://uipath.atlassian.net/browse/AE-1079"
         }
       ],
       "must_communicate_with": [
         {
-          "person_or_team": "Adrian / Evals engineering lead",
-          "about": "Sync on AE-744 UX progress \u2014 confirm alignment on justification display for low-code vs coded evaluators before next TR",
+          "person_or_team": "Jordan / Scott (Context Engineering & Evals stakeholders)",
+          "about": "Sync on AE-1079 no-ground-truth approach \u2014 validate assumptions before writing full design doc",
           "channel": "slack",
           "urgency": "this_week"
         },
         {
-          "person_or_team": "Jordan / Patterns & Context Engineering",
-          "about": "Align on how generated evaluations (AE-1079) interact with context engineering and memory work",
+          "person_or_team": "Engineering lead on AE-744",
+          "about": "Share latest UX direction for justification + actual vs expected results; get feasibility feedback",
           "channel": "slack",
           "urgency": "this_week"
         }
       ],
       "must_report_status": [
         {
-          "topic": "Evals UX and generated evaluations progress",
-          "to": "Agents big-rock leadership (bi-weekly TR audience)",
-          "via": "confluence",
-          "note": "Next TR is approaching \u2014 update Confluence with current status on AE-744 and AE-1079 so your section is ready"
+          "topic": "Evals UX and Generated Evaluations progress",
+          "to": "Agents leadership (Adrian / Marius)",
+          "via": "confluence or bi-weekly TR",
+          "note": "Next Big Rock TR may be coming soon \u2014 have a crisp status ready for both AE-744 and AE-1079"
         }
       ]
     },
@@ -552,9 +552,9 @@ const BRIEFS_HISTORY = [
     },
     "flags": [
       "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix credentials ASAP.",
-      "Snowflake integration is down (empty password) \u2014 no product metrics available. You cannot track evals adoption or agent telemetry.",
-      "Both Jira tickets have no due dates set \u2014 consider adding target dates to create urgency and signal commitment to stakeholders.",
-      "No Slack or email activity in 16 hours \u2014 unusually quiet; verify integrations are working correctly."
+      "Snowflake credentials empty \u2014 adoption and funnel metrics completely dark. Cannot track OKR progress.",
+      "Both active Jira tickets have no due dates \u2014 risk of deprioritization; consider setting target dates today.",
+      "No Slack activity in 16h \u2014 unusually quiet; confirm you're in all relevant Evals and Agents channels."
     ],
     "deliverables": {
       "tasks_completed": [],
@@ -566,10 +566,10 @@ const BRIEFS_HISTORY = [
     },
     "praise": [],
     "outcomes": {
-      "business_impact": "No measurable business impact yet today \u2014 priority is restoring observability (Salesforce/Snowflake) and advancing evals UX to keep 26.4 deliverables on track.",
-      "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake connection; advancing AE-744 and AE-1079 today directly supports the evals experience that drives adoption."
+      "business_impact": "No measurable business impact captured today yet \u2014 priority is to restore Salesforce/Snowflake visibility and advance the Evals UX work that directly supports agent quality and customer confidence.",
+      "product_adoption": "Evals adoption metrics unavailable due to broken Snowflake connection; advancing AE-744 and AE-1079 today is the highest-leverage adoption-driving work available."
     },
-    "slack_summary": "Your calendar is completely clear today \u2014 ideal for deep work on the two open Evals tickets. Top priorities: push AE-744 (Justification UX) forward and draft the no-ground-truth design doc for AE-1079. Also critical: fix broken Salesforce and Snowflake credentials so you regain visibility into escalations and product metrics. Zero meetings today."
+    "slack_summary": "Clear calendar today \u2014 best window to make real progress on both Evals tickets (AE-744 justification UX, AE-1079 no-ground-truth design doc). Top urgent items: (1) push AE-744 UX forward while you have uninterrupted time, and (2) fix broken Salesforce/Snowflake creds so you regain visibility into escalations and adoption metrics. Zero meetings today."
   },
   {
     "date": "2026-05-06",
