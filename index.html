@@ -372,18 +372,18 @@
 /* BRIEF_DATA_START */
 const BRIEF = {
   "date": "2026-05-15",
-  "headline": "Quiet day with no meetings, emails, or Slack activity \u2014 use it to drive deep progress on AE-744 (Evaluators UX) and fix broken Salesforce/Snowflake integrations.",
+  "headline": "Quiet day with no meetings, emails, or Slack activity \u2014 use this as a deep-work day to push AE-744 (Evaluator UX) forward and fix broken Salesforce/Snowflake integrations.",
   "todos": {
     "quick_wins": [
       {
         "task": "Fix Salesforce auth credentials (SALESFORCE_* env vars)",
-        "why": "Auth is failing \u2014 you're blind to open escalations and high-priority customer cases",
+        "why": "Escalation visibility is completely blocked \u2014 you're flying blind on customer issues",
         "source": "salesforce",
         "link": ""
       },
       {
         "task": "Fix Snowflake credentials (empty password)",
-        "why": "No metrics visibility; you can't track agents-in-production or evals adoption trends",
+        "why": "No access to product metrics; cannot track evals adoption or agent telemetry for OKR reporting",
         "source": "jira",
         "link": ""
       }
@@ -392,31 +392,31 @@ const BRIEF = {
     "must_make_progress": [
       {
         "task": "AE-744: Justification + Actual vs Expected Evaluation Run results UX for all Evaluators",
-        "why": "Only active Jira ticket, Major priority, no due date set \u2014 evals UX is a key deliverable tied to the Agents Big Rock and 26.4+ roadmap",
+        "why": "Only active Jira ticket; Evals is a key 26.4 deliverable tied to Agentic Initiative OKRs. No due date set \u2014 risk of drift without daily progress.",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-744"
       }
     ],
     "must_communicate_with": [
       {
-        "person_or_team": "AE-744 engineering lead",
-        "about": "Align on UX direction for justification display across low-code and coded evaluators; confirm scope and any blockers",
+        "person_or_team": "IT/DevOps or admin who manages Salesforce and Snowflake credentials",
+        "about": "Auth failures on both systems \u2014 need credential resets ASAP",
         "channel": "slack",
         "urgency": "today"
       },
       {
-        "person_or_team": "Jordan / Scott (Evals & Context Engineering)",
-        "about": "Sync on evals adoption metrics and how AE-744 fits into the broader evals roadmap referenced in Big Rock updates",
+        "person_or_team": "Engineering lead on AE-744",
+        "about": "Sync on current UX design progress, identify blockers, align on low-code vs coded evaluator parity",
         "channel": "slack",
-        "urgency": "this_week"
+        "urgency": "today"
       }
     ],
     "must_report_status": [
       {
-        "topic": "AE-744 progress and evals UX direction",
-        "to": "Adrian / Agents leadership",
+        "topic": "Evals UX (AE-744) progress",
+        "to": "Adrian or Agents leadership (bi-weekly TR audience)",
         "via": "slack",
-        "note": "No due date on the ticket \u2014 proactively share status to maintain visibility ahead of next bi-weekly TR"
+        "note": "Next bi-weekly TR will need a status update on evals \u2014 prepare talking points now while context is fresh"
       }
     ]
   },
@@ -425,12 +425,12 @@ const BRIEF = {
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake credentials broken"
+      "vs_goal": "Snowflake auth broken \u2014 no data"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "unavailable \u2014 Snowflake credentials broken"
+      "vs_goal": "Snowflake auth broken \u2014 no data"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -438,10 +438,10 @@ const BRIEF = {
     }
   },
   "flags": [
-    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix immediately.",
-    "Snowflake metrics pipeline is down (empty password) \u2014 no adoption or funnel data available.",
-    "AE-744 has no due date set \u2014 risk of scope creep or deprioritization; consider setting a target date.",
-    "Bi-weekly TR cadence (Big Rock page dated 3/18) \u2014 confirm when next TR is and ensure evals UX demo readiness."
+    "Salesforce integration is down (INVALID_LOGIN) \u2014 zero visibility into customer escalations. This is a blind spot that could hide critical issues.",
+    "Snowflake metrics pipeline is broken (empty password) \u2014 unable to track any product telemetry or OKR metrics.",
+    "AE-744 has no due date set \u2014 risk of scope creep or deprioritization without a target date.",
+    "No Slack or email activity in 16h is unusual \u2014 verify notifications are working correctly."
   ],
   "deliverables": {
     "tasks_completed": [],
@@ -453,10 +453,10 @@ const BRIEF = {
   },
   "praise": [],
   "outcomes": {
-    "business_impact": "No measurable business impact captured today yet \u2014 restoring Salesforce and Snowflake access is the prerequisite to regaining visibility into customer escalations and adoption metrics.",
-    "product_adoption": "Evals adoption data is unavailable due to broken Snowflake credentials; advancing AE-744 (Evaluators UX) is the primary adoption-driving work in progress."
+    "business_impact": "No measurable business impact yet today \u2014 priority is restoring observability (Salesforce, Snowflake) and advancing the Evaluator UX which is critical to the Agentic Initiative's evals deliverable.",
+    "product_adoption": "Evals adoption data is unavailable due to Snowflake auth failure; AE-744 (Evaluator UX improvements) is the primary adoption-driving work item in progress."
   },
-  "slack_summary": "Quiet day: no meetings, emails, or Slack activity. Top priority is driving deep progress on AE-744 (Evaluators justification + actual vs expected UX) \u2014 your only active Jira ticket. Urgent: fix broken Salesforce and Snowflake credentials so you regain visibility into customer escalations and adoption metrics. Zero meetings today \u2014 use the focus time well."
+  "slack_summary": "Quiet day: no meetings, no emails, no Slack activity \u2014 ideal for deep work on AE-744 (Evaluator UX for justification + actual vs expected results). Top two urgent items: (1) fix Salesforce and Snowflake credential failures so you regain visibility into escalations and product metrics, and (2) make meaningful progress on AE-744, your only active ticket and a key evals deliverable. Zero meetings today."
 };
 /* BRIEF_DATA_END */
 
@@ -473,18 +473,18 @@ const RAW_DATA = {
 const BRIEFS_HISTORY = [
   {
     "date": "2026-05-15",
-    "headline": "Quiet day with no meetings, emails, or Slack activity \u2014 use it to drive deep progress on AE-744 (Evaluators UX) and fix broken Salesforce/Snowflake integrations.",
+    "headline": "Quiet day with no meetings, emails, or Slack activity \u2014 use this as a deep-work day to push AE-744 (Evaluator UX) forward and fix broken Salesforce/Snowflake integrations.",
     "todos": {
       "quick_wins": [
         {
           "task": "Fix Salesforce auth credentials (SALESFORCE_* env vars)",
-          "why": "Auth is failing \u2014 you're blind to open escalations and high-priority customer cases",
+          "why": "Escalation visibility is completely blocked \u2014 you're flying blind on customer issues",
           "source": "salesforce",
           "link": ""
         },
         {
           "task": "Fix Snowflake credentials (empty password)",
-          "why": "No metrics visibility; you can't track agents-in-production or evals adoption trends",
+          "why": "No access to product metrics; cannot track evals adoption or agent telemetry for OKR reporting",
           "source": "jira",
           "link": ""
         }
@@ -493,31 +493,31 @@ const BRIEFS_HISTORY = [
       "must_make_progress": [
         {
           "task": "AE-744: Justification + Actual vs Expected Evaluation Run results UX for all Evaluators",
-          "why": "Only active Jira ticket, Major priority, no due date set \u2014 evals UX is a key deliverable tied to the Agents Big Rock and 26.4+ roadmap",
+          "why": "Only active Jira ticket; Evals is a key 26.4 deliverable tied to Agentic Initiative OKRs. No due date set \u2014 risk of drift without daily progress.",
           "source": "jira",
           "link": "https://uipath.atlassian.net/browse/AE-744"
         }
       ],
       "must_communicate_with": [
         {
-          "person_or_team": "AE-744 engineering lead",
-          "about": "Align on UX direction for justification display across low-code and coded evaluators; confirm scope and any blockers",
+          "person_or_team": "IT/DevOps or admin who manages Salesforce and Snowflake credentials",
+          "about": "Auth failures on both systems \u2014 need credential resets ASAP",
           "channel": "slack",
           "urgency": "today"
         },
         {
-          "person_or_team": "Jordan / Scott (Evals & Context Engineering)",
-          "about": "Sync on evals adoption metrics and how AE-744 fits into the broader evals roadmap referenced in Big Rock updates",
+          "person_or_team": "Engineering lead on AE-744",
+          "about": "Sync on current UX design progress, identify blockers, align on low-code vs coded evaluator parity",
           "channel": "slack",
-          "urgency": "this_week"
+          "urgency": "today"
         }
       ],
       "must_report_status": [
         {
-          "topic": "AE-744 progress and evals UX direction",
-          "to": "Adrian / Agents leadership",
+          "topic": "Evals UX (AE-744) progress",
+          "to": "Adrian or Agents leadership (bi-weekly TR audience)",
           "via": "slack",
-          "note": "No due date on the ticket \u2014 proactively share status to maintain visibility ahead of next bi-weekly TR"
+          "note": "Next bi-weekly TR will need a status update on evals \u2014 prepare talking points now while context is fresh"
         }
       ]
     },
@@ -526,12 +526,12 @@ const BRIEFS_HISTORY = [
       "agents_in_production": {
         "value": "unavailable",
         "trend": "unknown",
-        "vs_goal": "unavailable \u2014 Snowflake credentials broken"
+        "vs_goal": "Snowflake auth broken \u2014 no data"
       },
       "evals_adoption": {
         "value": "unavailable",
         "trend": "unknown",
-        "vs_goal": "unavailable \u2014 Snowflake credentials broken"
+        "vs_goal": "Snowflake auth broken \u2014 no data"
       },
       "escalations_open": {
         "value": "unavailable",
@@ -539,10 +539,10 @@ const BRIEFS_HISTORY = [
       }
     },
     "flags": [
-      "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations. Fix immediately.",
-      "Snowflake metrics pipeline is down (empty password) \u2014 no adoption or funnel data available.",
-      "AE-744 has no due date set \u2014 risk of scope creep or deprioritization; consider setting a target date.",
-      "Bi-weekly TR cadence (Big Rock page dated 3/18) \u2014 confirm when next TR is and ensure evals UX demo readiness."
+      "Salesforce integration is down (INVALID_LOGIN) \u2014 zero visibility into customer escalations. This is a blind spot that could hide critical issues.",
+      "Snowflake metrics pipeline is broken (empty password) \u2014 unable to track any product telemetry or OKR metrics.",
+      "AE-744 has no due date set \u2014 risk of scope creep or deprioritization without a target date.",
+      "No Slack or email activity in 16h is unusual \u2014 verify notifications are working correctly."
     ],
     "deliverables": {
       "tasks_completed": [],
@@ -554,10 +554,10 @@ const BRIEFS_HISTORY = [
     },
     "praise": [],
     "outcomes": {
-      "business_impact": "No measurable business impact captured today yet \u2014 restoring Salesforce and Snowflake access is the prerequisite to regaining visibility into customer escalations and adoption metrics.",
-      "product_adoption": "Evals adoption data is unavailable due to broken Snowflake credentials; advancing AE-744 (Evaluators UX) is the primary adoption-driving work in progress."
+      "business_impact": "No measurable business impact yet today \u2014 priority is restoring observability (Salesforce, Snowflake) and advancing the Evaluator UX which is critical to the Agentic Initiative's evals deliverable.",
+      "product_adoption": "Evals adoption data is unavailable due to Snowflake auth failure; AE-744 (Evaluator UX improvements) is the primary adoption-driving work item in progress."
     },
-    "slack_summary": "Quiet day: no meetings, emails, or Slack activity. Top priority is driving deep progress on AE-744 (Evaluators justification + actual vs expected UX) \u2014 your only active Jira ticket. Urgent: fix broken Salesforce and Snowflake credentials so you regain visibility into customer escalations and adoption metrics. Zero meetings today \u2014 use the focus time well."
+    "slack_summary": "Quiet day: no meetings, no emails, no Slack activity \u2014 ideal for deep work on AE-744 (Evaluator UX for justification + actual vs expected results). Top two urgent items: (1) fix Salesforce and Snowflake credential failures so you regain visibility into escalations and product metrics, and (2) make meaningful progress on AE-744, your only active ticket and a key evals deliverable. Zero meetings today."
   },
   {
     "date": "2026-05-14",
