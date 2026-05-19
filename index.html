@@ -371,25 +371,19 @@
 <script>
 /* BRIEF_DATA_START */
 const BRIEF = {
-  "date": "2026-05-18",
-  "headline": "Clear calendar and quiet comms \u2014 ideal day to drive deep progress on the Flow Evals epic and VSCode Public Preview workstream.",
+  "date": "2026-05-19",
+  "headline": "Quiet Monday with no meetings, emails, or Slack activity \u2014 use the open calendar to drive progress on the 8 active Jira tickets, especially the in-progress evaluator UX work (AE-744) and the VSCode Public Preview track.",
   "todos": {
     "quick_wins": [
       {
-        "task": "Triage and prioritize AE-1502 (Flow evals epic) sub-tasks: sequence AE-1503, AE-1504, AE-1505 for sprint readiness",
-        "why": "Epic is To Do with 4 child tasks also in To Do \u2014 unblocking engineering starts with clear priority order",
+        "task": "Triage and prioritize the 7 'To Do' Jira tickets \u2014 set due dates and sequence them against the Public Preview and Flow Evals milestones",
+        "why": "None of the 8 tickets have due dates, creating ambiguity on delivery timelines",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1502"
       },
       {
-        "task": "Set due dates on all 8 active Jira tickets \u2014 none currently have deadlines",
-        "why": "No due dates means no visibility for leadership or cross-team dependencies",
-        "source": "jira",
-        "link": "https://uipath.atlassian.net/browse/AE-1502"
-      },
-      {
-        "task": "Fix Salesforce and Snowflake credentials to restore dashboards",
-        "why": "You're flying blind on escalations and product metrics \u2014 both auth errors need IT/DevOps action",
+        "task": "Fix Salesforce and Snowflake integrations \u2014 check env vars and credentials",
+        "why": "You're flying blind on escalations and product metrics; both auth configs are broken",
         "source": "salesforce",
         "link": ""
       }
@@ -397,56 +391,50 @@ const BRIEF = {
     "must_close_today": [],
     "must_make_progress": [
       {
-        "task": "AE-744: Justification + Actual vs Expected Evaluation Run results UX",
-        "why": "Only In Progress ticket \u2014 likely the nearest to completion; push toward review/done",
+        "task": "AE-744: Advance Justification + Actual vs Expected UX for Evaluators",
+        "why": "Only in-progress ticket \u2014 likely on the critical path for the Flow Evals epic (AE-1502) and 26.4 deliverables",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-744"
       },
       {
-        "task": "AE-1508: VSCode Runtime and packaging changes for Public Preview",
-        "why": "Public Preview is a key 26.4 deliverable per OKRs; this plus AE-1506 and AE-1507 form the critical path",
+        "task": "AE-1508: Kick off VSCode Runtime/Packaging changes for Public Preview",
+        "why": "Public Preview is a key 26.4 deliverable; this ticket plus AE-1506 and AE-1507 form a cluster that needs to move together",
         "source": "jira",
         "link": "https://uipath.atlassian.net/browse/AE-1508"
       },
       {
-        "task": "AE-1503: Node-level Evaluators \u2014 validate agent node results",
-        "why": "Core building block for the Flow Evals epic (AE-1502); needs acceptance criteria finalized",
+        "task": "AE-1502: Define scope and acceptance criteria for the Flow Evals Public Preview epic",
+        "why": "Epic is still in 'To Do' \u2014 child tickets (AE-1503, AE-1504, AE-1505) need a clear plan and dependencies mapped",
         "source": "jira",
-        "link": "https://uipath.atlassian.net/browse/AE-1503"
-      },
-      {
-        "task": "Simulation Complex Schema tickets (AE-1504, AE-1505)",
-        "why": "IS Nodes and Flow-specific nodes are prerequisites for realistic eval simulation coverage",
-        "source": "jira",
-        "link": "https://uipath.atlassian.net/browse/AE-1504"
+        "link": "https://uipath.atlassian.net/browse/AE-1502"
       }
     ],
     "must_communicate_with": [
       {
         "person_or_team": "Marius / Flow team",
-        "about": "Align on Flow Evals epic (AE-1502) scope and sprint plan \u2014 OKR calls out Flow Updates as On Track Green; confirm that's still true",
+        "about": "Align on Flow Evals epic (AE-1502) scope, timeline, and dependencies on Simulation Complex Schema tickets (AE-1504, AE-1505)",
         "channel": "slack",
         "urgency": "today"
       },
       {
-        "person_or_team": "Adrian / Advanced Agents team",
-        "about": "Confirm VSCode Public Preview timeline and whether AE-1506/1507/1508 are sequenced correctly",
+        "person_or_team": "VSCode extension engineering lead",
+        "about": "Confirm sequencing of AE-1506 (side bar panels), AE-1507 (visual polish), and AE-1508 (runtime/packaging) for Public Preview",
+        "channel": "slack",
+        "urgency": "today"
+      },
+      {
+        "person_or_team": "Sherif / Enablement",
+        "about": "Check if enablement plan for the field needs input from you on evals or coded agents",
         "channel": "slack",
         "urgency": "this_week"
-      },
-      {
-        "person_or_team": "IT / DevOps",
-        "about": "Salesforce auth failure (INVALID_LOGIN) and Snowflake empty password \u2014 need credentials reset to restore dashboards",
-        "channel": "slack",
-        "urgency": "today"
       }
     ],
     "must_report_status": [
       {
-        "topic": "Flow Evals (AE-1502) and VSCode Public Preview readiness",
-        "to": "Agents leadership (bi-weekly TR audience)",
-        "via": "confluence",
-        "note": "Next bi-weekly TR will need status \u2014 draft bullets now while context is fresh"
+        "topic": "Flow Evals and Evaluator UX progress",
+        "to": "Agents leadership (Adrian / Marius)",
+        "via": "slack",
+        "note": "Next bi-weekly TR likely approaching; proactively share status on AE-744 and AE-1502 to stay ahead of asks"
       }
     ]
   },
@@ -455,12 +443,12 @@ const BRIEF = {
     "agents_in_production": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "Snowflake auth broken \u2014 needs credential fix"
+      "vs_goal": "Snowflake auth broken \u2014 fix credentials to restore dashboard"
     },
     "evals_adoption": {
       "value": "unavailable",
       "trend": "unknown",
-      "vs_goal": "AE-744 UX in progress; Flow evals epic not yet started"
+      "vs_goal": "Snowflake auth broken \u2014 critical to track ahead of Public Preview"
     },
     "escalations_open": {
       "value": "unavailable",
@@ -468,11 +456,11 @@ const BRIEF = {
     }
   },
   "flags": [
-    "Salesforce integration is down (INVALID_LOGIN) \u2014 no visibility into customer escalations or high-priority cases.",
-    "Snowflake metrics are inaccessible (empty password) \u2014 cannot track product adoption or funnel health for the MBR dashboard.",
-    "All 8 active Jira tickets lack due dates \u2014 creates risk of silent deadline misses and poor sprint forecasting.",
-    "AE-1502 (Flow Evals epic) and all its sub-tasks are still in To Do \u2014 needs kickoff urgently if targeting 26.4.",
-    "No Slack or email activity in 16h \u2014 either quiet period or data pipeline issue; verify feeds are working."
+    "Salesforce integration is broken (INVALID_LOGIN) \u2014 you have zero visibility into customer escalations. Fix immediately.",
+    "Snowflake metrics integration is broken (empty password) \u2014 no telemetry data for MBR dashboard or OKR tracking.",
+    "None of your 8 active Jira tickets have due dates \u2014 this is a planning risk as 26.4 deliverables approach.",
+    "AE-744 is the only ticket 'In Progress' out of 8 \u2014 risk of under-delivery if the To Do items don't start moving this week.",
+    "No Slack or email activity in 16 hours \u2014 unusually quiet; confirm you're not missing messages due to a notification issue."
   ],
   "deliverables": {
     "tasks_completed": [],
@@ -484,10 +472,10 @@ const BRIEF = {
   },
   "praise": [],
   "outcomes": {
-    "business_impact": "No customer-facing impact captured today due to Salesforce/Snowflake outages; restoring observability is the highest-leverage action.",
-    "product_adoption": "Evals UX (AE-744) remains the closest deliverable to advancing eval adoption; Flow Evals epic and VSCode Public Preview need sprint activation to hit 26.4 targets."
+    "business_impact": "No escalations, decisions, or customer interactions visible today \u2014 priority is restoring Salesforce/Snowflake visibility and unblocking the Flow Evals and VSCode Public Preview delivery tracks.",
+    "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake auth; advancing AE-744 (evaluator UX) and AE-1502 (Flow Evals epic) are the primary adoption-driving work items this week."
   },
-  "slack_summary": "Clear calendar and zero inbound \u2014 ideal deep-work day to push the Flow Evals and VSCode Public Preview workstreams forward. Top urgent items: (1) drive AE-744 (Eval UX) toward completion as your only In Progress ticket, and (2) get IT to fix Salesforce/Snowflake auth so you can see escalations and product metrics again. No meetings today."
+  "slack_summary": "Quiet Monday: no meetings, no emails, no Slack activity in the last 16 hours. Top priorities are advancing the in-progress evaluator UX ticket (AE-744) and kicking off planning for the Flow Evals Public Preview epic (AE-1502) \u2014 both are critical 26.4 deliverables. Also urgent: fix broken Salesforce and Snowflake credentials so you can see escalations and product metrics. Zero meetings today \u2014 use the open calendar to make real progress."
 };
 /* BRIEF_DATA_END */
 
@@ -502,6 +490,113 @@ const RAW_DATA = {
 
 /* BRIEFS_HISTORY_START */
 const BRIEFS_HISTORY = [
+  {
+    "date": "2026-05-19",
+    "headline": "Quiet Monday with no meetings, emails, or Slack activity \u2014 use the open calendar to drive progress on the 8 active Jira tickets, especially the in-progress evaluator UX work (AE-744) and the VSCode Public Preview track.",
+    "todos": {
+      "quick_wins": [
+        {
+          "task": "Triage and prioritize the 7 'To Do' Jira tickets \u2014 set due dates and sequence them against the Public Preview and Flow Evals milestones",
+          "why": "None of the 8 tickets have due dates, creating ambiguity on delivery timelines",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-1502"
+        },
+        {
+          "task": "Fix Salesforce and Snowflake integrations \u2014 check env vars and credentials",
+          "why": "You're flying blind on escalations and product metrics; both auth configs are broken",
+          "source": "salesforce",
+          "link": ""
+        }
+      ],
+      "must_close_today": [],
+      "must_make_progress": [
+        {
+          "task": "AE-744: Advance Justification + Actual vs Expected UX for Evaluators",
+          "why": "Only in-progress ticket \u2014 likely on the critical path for the Flow Evals epic (AE-1502) and 26.4 deliverables",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-744"
+        },
+        {
+          "task": "AE-1508: Kick off VSCode Runtime/Packaging changes for Public Preview",
+          "why": "Public Preview is a key 26.4 deliverable; this ticket plus AE-1506 and AE-1507 form a cluster that needs to move together",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-1508"
+        },
+        {
+          "task": "AE-1502: Define scope and acceptance criteria for the Flow Evals Public Preview epic",
+          "why": "Epic is still in 'To Do' \u2014 child tickets (AE-1503, AE-1504, AE-1505) need a clear plan and dependencies mapped",
+          "source": "jira",
+          "link": "https://uipath.atlassian.net/browse/AE-1502"
+        }
+      ],
+      "must_communicate_with": [
+        {
+          "person_or_team": "Marius / Flow team",
+          "about": "Align on Flow Evals epic (AE-1502) scope, timeline, and dependencies on Simulation Complex Schema tickets (AE-1504, AE-1505)",
+          "channel": "slack",
+          "urgency": "today"
+        },
+        {
+          "person_or_team": "VSCode extension engineering lead",
+          "about": "Confirm sequencing of AE-1506 (side bar panels), AE-1507 (visual polish), and AE-1508 (runtime/packaging) for Public Preview",
+          "channel": "slack",
+          "urgency": "today"
+        },
+        {
+          "person_or_team": "Sherif / Enablement",
+          "about": "Check if enablement plan for the field needs input from you on evals or coded agents",
+          "channel": "slack",
+          "urgency": "this_week"
+        }
+      ],
+      "must_report_status": [
+        {
+          "topic": "Flow Evals and Evaluator UX progress",
+          "to": "Agents leadership (Adrian / Marius)",
+          "via": "slack",
+          "note": "Next bi-weekly TR likely approaching; proactively share status on AE-744 and AE-1502 to stay ahead of asks"
+        }
+      ]
+    },
+    "meetings_today": [],
+    "metrics_snapshot": {
+      "agents_in_production": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "Snowflake auth broken \u2014 fix credentials to restore dashboard"
+      },
+      "evals_adoption": {
+        "value": "unavailable",
+        "trend": "unknown",
+        "vs_goal": "Snowflake auth broken \u2014 critical to track ahead of Public Preview"
+      },
+      "escalations_open": {
+        "value": "unavailable",
+        "critical_count": 0
+      }
+    },
+    "flags": [
+      "Salesforce integration is broken (INVALID_LOGIN) \u2014 you have zero visibility into customer escalations. Fix immediately.",
+      "Snowflake metrics integration is broken (empty password) \u2014 no telemetry data for MBR dashboard or OKR tracking.",
+      "None of your 8 active Jira tickets have due dates \u2014 this is a planning risk as 26.4 deliverables approach.",
+      "AE-744 is the only ticket 'In Progress' out of 8 \u2014 risk of under-delivery if the To Do items don't start moving this week.",
+      "No Slack or email activity in 16 hours \u2014 unusually quiet; confirm you're not missing messages due to a notification issue."
+    ],
+    "deliverables": {
+      "tasks_completed": [],
+      "documents": [],
+      "features_or_initiatives": [],
+      "customer_enablement": [],
+      "slack_supported": [],
+      "other": []
+    },
+    "praise": [],
+    "outcomes": {
+      "business_impact": "No escalations, decisions, or customer interactions visible today \u2014 priority is restoring Salesforce/Snowflake visibility and unblocking the Flow Evals and VSCode Public Preview delivery tracks.",
+      "product_adoption": "Evals adoption metrics are unavailable due to broken Snowflake auth; advancing AE-744 (evaluator UX) and AE-1502 (Flow Evals epic) are the primary adoption-driving work items this week."
+    },
+    "slack_summary": "Quiet Monday: no meetings, no emails, no Slack activity in the last 16 hours. Top priorities are advancing the in-progress evaluator UX ticket (AE-744) and kicking off planning for the Flow Evals Public Preview epic (AE-1502) \u2014 both are critical 26.4 deliverables. Also urgent: fix broken Salesforce and Snowflake credentials so you can see escalations and product metrics. Zero meetings today \u2014 use the open calendar to make real progress."
+  },
   {
     "date": "2026-05-18",
     "headline": "Clear calendar and quiet comms \u2014 ideal day to drive deep progress on the Flow Evals epic and VSCode Public Preview workstream.",
